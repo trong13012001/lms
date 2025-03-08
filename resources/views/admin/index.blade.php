@@ -47,7 +47,7 @@
                                 <x-sidebar :submenu="false" :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.index')" icon="si si-users" name="Vai trò" />
                                 <x-sidebar :submenu="false" :href="route('admin.permissions.index')" :active="request()->routeIs('admin.permissions.index')" icon="si si-users" name="Phân quyền" />
                                 <x-sidebar :submenu="false" :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" icon="si si-users" name="Tài khoản" />
-                                <x-sidebar :submenu="false" target="_blank" href="/admin/user-activity" :active="null" icon="si si-screen-desktop" name="Lịch sử hoạt động" />
+                                <x-sidebar :submenu="false" target="_blank" href="/user-activity" :active="null" icon="si si-screen-desktop" name="Lịch sử hoạt động" />
                             @endrole
                             {{-- <li class="nav-main-heading">Base</li> <!-- title --> --}}
                             {{-- submenu

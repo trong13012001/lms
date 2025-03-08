@@ -177,7 +177,7 @@ class AuthController extends Controller
 
         notify()->info('Đăng xuất tài khoản thành công', 'Thông báo');
 
-        return redirect('/admin');
+        return redirect('/');
     }
 
     public function changePassUser(User $user, Request $request) {

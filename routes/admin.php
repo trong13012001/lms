@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\IssuedBookController;
 
 
 
-Route::get('/admin', function () {
+Route::get('/', function () {
     return view('admin.home');
 })->middleware(['auth'])->name('dashboard');
 
@@ -104,7 +104,7 @@ Route::middleware(['auth', 'auth.session', 'permission'])->group(function () {
 
 });
 
-Route::middleware('guest')->prefix('admin')->group(function () {
+Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'create']);
     Route::post('login', [AuthController::class, 'store'])->name('login');
 });
