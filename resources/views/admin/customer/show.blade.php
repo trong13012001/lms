@@ -78,9 +78,9 @@
 
                                         @if ($isOverdue)
                                             <span class="text-danger">Đã quá hạn</span>
-                                        @elseif (!$item->returned_date)
+                                        @elseif ($item->status==1)
                                             <span class="text-warning">Đang mượn</span>
-                                        @elseif ($item->returned_date)
+                                        @elseif ($item->status==0)
                                             <span class="text-success">Đã trả</span>
                                         @endif
                                     </td>
