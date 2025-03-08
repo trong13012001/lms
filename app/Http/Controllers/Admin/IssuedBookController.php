@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\IssuedBook;
+use App\Models\BookItem;
 class IssuedBookController extends Controller
 {
     public function index()
@@ -19,34 +20,39 @@ class IssuedBookController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->all());
         try {
             $validated = $request->validate([
                 'return_date' => 'required|date|after:today',
-
             ], [
                 'return_date.required' => 'Ngày trả không được bỏ trống',
                 'return_date.after' => 'Ngày trả phải sau ngày hiện tại',
-
             ]);
+
+            $bookItem = BookItem::findOrFail($request->book_item_id);
+
+            if ($bookItem->status != 1) {
+                throw new \Exception('Sách này không có sẵn để mượn.');
+            }
 
             $issuedBook = IssuedBook::create([
                 'user_id' => auth()->user()->id,
                 'issued_date' => now(),
-                'return_date' =>$request->return_date,
+                'return_date' => $request->return_date,
                 'customer_id' => $request->customer_id,
-                'book_item_id' =>$request->book_item_id,
-
+                'book_item_id' => $request->book_item_id,
             ]);
+
+            // Update book item status to 0 (issued)
+            $bookItem->update(['status' => 0]);
 
             $customer = $issuedBook->customer;
             $book = $issuedBook->bookItem->book;
 
             notify()->success("Khách hàng ".$customer->name . ' mượn sách ' . $book->name . ' thành công', 'Thông báo');
             return redirect()->back();
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            notify()->error($e->getMessage(), 'Validation Error');
-            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            notify()->error($e->getMessage(), 'Error');
+            return redirect()->back()->withInput();
         }
     }
 
@@ -80,8 +86,14 @@ class IssuedBookController extends Controller
     public function returned_book($id)
     {
         $issuedBook=IssuedBook::find($id);
+        $bookItem = $issuedBook->bookItem;
+
+        $bookItem->update([
+           'status'=>1,
+        ]);
         $issuedBook->update([
-            'returned_date'=>now()
+            'returned_date'=>now(),
+           'status'=>0,
         ]);
         notify()->success('Trả sách thành công','Thông báo');
         return to_route('admin.issued_book.index');

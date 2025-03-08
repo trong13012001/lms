@@ -17,6 +17,7 @@ class IssuedBook extends Model
         'issued_date',
         'return_date',
         'returned_date',
+        'status'
 
     ];
 

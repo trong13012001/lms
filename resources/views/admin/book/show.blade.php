@@ -93,17 +93,17 @@
                                     <td>{{ $item->book_code }}</td>
                                     <td>{{ $item->location }}</td>
                                     <td>{{$item->published_at}}</td>
-                                    <td>@if ($item->issuedBooks->count()==0)
-                                        <span class="text-success">Đã trả</span>
+                                    <td>@if ($item->status==1)
+                                        <span class="text-success">Khả dụng</span>
                                     @else
                                         <span class="text-warning">Đang mượn</span>
 
                                     @endif</td>
-                                    {{-- <td>{{$item->issuedBooks}}</td> --}}
+                                    {{-- {{-- <td>{{$item->issuedBooks}}</td> --}}
                                     <td>
 
                                         <div class="btn-group" style="gap: 10px;">
-                                            @if ($item->issuedBooks->count()==0)
+                                            @if ($item->status==1)
                                             @if (auth()->user()->can('admin.issued_book.store'))
                                             <button type="button"
                                                 class="btn btn-sm btn-alt-primary js-bs-tooltip-enabled rounded-0"

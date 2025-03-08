@@ -17,7 +17,8 @@ class BookItem extends Model
         'publisher_id',
         'book_code',
         'location',
-        'published_at'
+        'published_at',
+        'status',
 
     ];
     private static $whiteListFilter = ['*', 'book_code'];

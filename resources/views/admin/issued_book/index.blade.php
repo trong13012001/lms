@@ -94,7 +94,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-gray-500">Không tìm thấy dữ liệu</td>
+                                    <td colspan="10" class="text-center text-gray-500">Không tìm thấy dữ liệu</td>
                                 </tr>
                             @endforelse
                         </tbody>

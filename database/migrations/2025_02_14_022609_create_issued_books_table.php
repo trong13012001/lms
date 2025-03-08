@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('issued_date')->nullable();
             $table->date('return_date')->nullable();
             $table->date('returned_date')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }
