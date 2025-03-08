@@ -5,4 +5,4 @@ const app = createApp();
 
 app.component('upload-file', upload)
 
-app.mount('#twc-app')
+app.mount('#lms-app')
