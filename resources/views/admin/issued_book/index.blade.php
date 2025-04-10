@@ -7,15 +7,7 @@
         <div class="card-body">
             <div class="header-card mb-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0"></h5>
-                    @if (auth()->user()->can('admin.issued_book.store'))
-                        <div>
-                            <a href="{{ route('admin.issued_book.create') }}" class="btn bg-gd-aqua text-white text-sm mb-0">
-                                <i class="fa fa-circle-plus me-1"></i>
-                                Thêm sách
-                            </a>
-                        </div>
-                    @endif
+                   
                 </div>
             </div>
             <div class="body-card">

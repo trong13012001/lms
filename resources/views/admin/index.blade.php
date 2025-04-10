@@ -27,13 +27,26 @@
                         <ul class="nav-main">
                             <x-sidebar :submenu="false" :href="route('dashboard')" :active="request()->routeIs('dashboard')" icon="si si-home" name="Trang chủ"/>
                                 <x-parent-sidebar icon="si si-folder" name="Quản lý sách  ">
-                                    @if(auth()->user()->hasRole('admin'))
-                                        <x-sidebar :submenu="false" :href="route('admin.author.index')" :active="request()->routeIs('admin.author.index')" icon="" name="Tác giả"/>
-                                        <x-sidebar :submenu="false" :href="route('admin.publisher.index')" :active="request()->routeIs('admin.publisher.index')" icon="" name="Nhà xuất bản"/>
-                                        <x-sidebar :submenu="false" :href="route('admin.genre.index')" :active="request()->routeIs('admin.genre.index')" icon="" name="Thể loại"/>
+                                    @if (auth()->user()->can('admin.author.index'))
+                                    <x-sidebar :submenu="false" :href="route('admin.author.index')" :active="request()->routeIs('admin.author.index')" icon="" name="Tác giả"/>
+                                    @endif
+                                    @if (auth()->user()->can('admin.book.index'))
+                                    <x-sidebar :submenu="false" :href="route('admin.book.index')" :active="request()->routeIs('admin.book.index')" icon="" name="Danh sách đầu sách"/>
+                                    @endif
+                                    @if (auth()->user()->can('admin.issued_book.index'))
+                                    <x-sidebar :submenu="false" :href="route('admin.issued_book.index')" :active="request()->routeIs('admin.issued_book.index')" icon="" name="Danh sách sách đang mượn"/>
+                                    @endif
+                                    @if (auth()->user()->can('admin.publisher.index'))
+                                    <x-sidebar :submenu="false" :href="route('admin.publisher.index')" :active="request()->routeIs('admin.publisher.index')" icon="" name="Nhà xuất bản"/>
+                                    @endif
+                                    @if (auth()->user()->can('admin.genre.index'))
+                                    <x-sidebar :submenu="false" :href="route('admin.genre.index')" :active="request()->routeIs('admin.genre.index')" icon="" name="Thể loại"/>
+                                    @endif
+                                    @if(auth()->user()->can('admin.tag.index'))
                                         <x-sidebar :submenu="false" :href="route('admin.tag.index')" :active="request()->routeIs('admin.tag.index')" icon="" name="Nhãn"/>
-                                        <x-sidebar :submenu="false" :href="route('admin.book.index')" :active="request()->routeIs('admin.book.index')" icon="" name="Danh sách sách"/>
-                                            <x-sidebar :submenu="false" :href="route('admin.issued_book.index')" :active="request()->routeIs('admin.issued_book.index')" icon="" name="Danh sách sách đã mượn"/>
+                                    @endif
+                                    @if(auth()->user()->hasRole('admin'))
+
 
                                     @endif
 
@@ -47,7 +60,7 @@
                                 <x-sidebar :submenu="false" :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.index')" icon="si si-users" name="Vai trò" />
                                 <x-sidebar :submenu="false" :href="route('admin.permissions.index')" :active="request()->routeIs('admin.permissions.index')" icon="si si-users" name="Phân quyền" />
                                 <x-sidebar :submenu="false" :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" icon="si si-users" name="Tài khoản" />
-                                <x-sidebar :submenu="false" target="_blank" href="/user-activity" :active="null" icon="si si-screen-desktop" name="Lịch sử hoạt động" />
+                                <x-sidebar :submenu="false" target="_blank" href="admin/user-activity" :active="null" icon="si si-screen-desktop" name="Lịch sử hoạt động" />
                             @endrole
                             {{-- <li class="nav-main-heading">Base</li> <!-- title --> --}}
                             {{-- submenu
@@ -104,9 +117,10 @@
                                     {{ auth()->user()->name }}
                                 </div>
                                 <div class="p-2">
-                                    <a class="dropdown-item" href="be_pages_generic_profile.html">
+                                    <a class="dropdown-item" href="{{ route('edit-profile') }}">
                                         <i class="far fa-fw fa-user me-1"></i> Thông tin tài khoản
                                     </a>
+
                                     <div role="separator" class="dropdown-divider"></div>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf

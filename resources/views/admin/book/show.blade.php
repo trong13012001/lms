@@ -45,13 +45,12 @@
 
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0"></h5>
-                    @if (auth()->user()->can('admin.book_item.store'))
+                    @if (auth()->user()->can('admin.book.item.store'))
                         <div>
-                            <button type="button" class="btn bg-gd-aqua text-white text-sm mb-0" data-bs-toggle="modal"
-                                data-bs-target="#createBook">
+                            <a href="{{ route('admin.book.item.create', ['book' => $book->id]) }}" class="btn bg-gd-aqua text-white text-sm mb-0">
                                 <i class="tf-icons fa fa-circle-plus me-1"></i>
                                 Thêm sách
-                            </button>
+                            </a>
                         </div>
                     @endif
                 </div>
@@ -131,8 +130,7 @@
                                             @endif
                                         </div>
                                         <x-modal-issued-book :id="$item->id" :customers="$customers"/>
-                                            <x-modal-del id="{{ $item->id }}" name="sách"
-                                            route="admin.book_item.destroy" />
+                                            <x-modal-del id="{{ $item->id }}" name="sách" route="admin.book.item.destroy" :params="['book' => $book->id, 'item' => $item->id]"/>
                                             <div class="modal fade text-left" id="editBookItem-{{ $item->id }}" tabindex="-1">
                                                 <div class="modal-dialog modal-dialog-popout modal-dialog-centered modal-dialog-scrollable modal-custom modal-xl">
                                                     <div class="modal-content">
@@ -140,7 +138,7 @@
                                                             <h4 class="modal-title text-white">Sửa sách</h4>
                                                         </div>
                                                         <form id="tag-update-form-{{ $item->id }}"
-                                                            action="{{ route('admin.book_item.update', $item->id) }}"
+                                                            action="{{ route('admin.book.item.update',['book' => $book->id, 'item' => $item->id]) }}"
                                                             method="post">
                                                             @method('PUT')
                                                             @csrf
@@ -203,77 +201,4 @@
             </div>
         </div>
     </div>
-    <div class="modal fade text-left" id="createBook" tabindex="-1">
-        <div class="modal-dialog modal-dialog-popout modal-dialog-centered modal-dialog-scrollable modal-custom modal-xl"
-            role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-gd-sea-op">
-                    <h4 class="modal-title text-white">Thêm sách</h4>
-                </div>
-                <form id="tag-form" action="{{ route('admin.book_item.store') }}" method="post">
-                    @csrf
-                    <div class="modal-body pb-0">
-                        <div class="mb-3">
-                            <input type="hidden" name="book_id" value="{{$book->id}}">
-                            <label class="form-label">Nhà xuất bản</label>
-                            <select class="choices form-select" name="publisher_id" required>
-                                <option placeholder value="">Tìm hoặc chọn nhà xuất bản</option>
-                                @foreach ($publishers as $item)
-                                    <option value="{{ $item['id'] }}">
-                                        {{ $item['name'] }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Mã sách</label>
-                            <input id="name" type="text" class="form-control" name="book_code"
-                                placeholder="Nhập mã sách" value="{{old('book_code')}}" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Vị trí để sách</label>
-                            <input class="form-control" name="location" id="location" placeholder="Nhập vị trí để sách"></input>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Năm xuất bản</label>
-                            <input type="text" class="js-flatpickr form-control" name="published_at"
-                            placeholder="Y-m-d"  value="{{ old('published_at') }}">                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-label-secondary me-1" data-bs-dismiss="modal">
-                            <span class="d-none d-sm-block">Huỷ</span>
-                        </button>
-                        <button type="submit" id="submitButton" class="btn bg-gd-sea-op text-white ms-1">
-                            <span class="d-none d-sm-block">Thêm sách</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    {{-- <x-slot name="scripts">
-        <script src="/themes/js/vldTH.js"></script>
-
-        <script>
-            const fields_create = [{
-                input: 'name',
-                error: 'error-name'
-            }, ];
-            document.addEventListener('DOMContentLoaded', function(event) {
-                vldTH('tag-form', fields_create, 'submitButton');
-
-            })
-
-            @foreach ($items as $item)
-                const fields_update_{{ $item->id }} = [{
-                    input: 'name-{{ $item->id }}',
-                    error: 'error-name-{{ $item->id }}'
-                }, ];
-                document.addEventListener('DOMContentLoaded', function(event) {
-                    vldTH('tag-update-form-{{ $item->id }}', fields_update_{{ $item->id }},
-                        'submitUpdateButton');
-                })
-            @endforeach
-        </script>
-    </x-slot> --}}
 </x-admin-layout>

@@ -10,8 +10,7 @@ class IssuedBookController extends Controller
 {
     public function index()
     {
-        $issuedBooks=IssuedBook::with('bookItem','customer')->filter()->paginate(10);
-        // dd($issuedBooks);
+        $issuedBooks=IssuedBook::with('bookItem','customer')->filter()->where('status',1)->paginate(10);
         return view('admin.issued_book.index',compact('issuedBooks'));
     }
     public function create()
@@ -21,7 +20,7 @@ class IssuedBookController extends Controller
     public function store(Request $request)
     {
         try {
-            $validated = $request->validate([
+            $request->validate([
                 'return_date' => 'required|date|after:today',
             ], [
                 'return_date.required' => 'Ngày trả không được bỏ trống',
@@ -66,7 +65,7 @@ class IssuedBookController extends Controller
     {
         $request->validate([
             'issue_date' =>'required',
-           'return_date' =>'required',
+            'return_date' =>'required',
         ],
         [
             'issue_date.required' => 'Ngày mượn không được bỏ trống',

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use Validator;
-use App\Models\User;
-use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -20,7 +20,6 @@ class AuthController extends Controller
     {
         return view('admin.auth.login');
     }
-
 
     /**
      * Handle an incoming authentication request.
@@ -30,22 +29,22 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        if($this->checkTooManyLoginAttempts($request)) {
+        if ($this->checkTooManyLoginAttempts($request)) {
             return back();
         }
 
         $validator = Validator::make($request->all(),
-        [
-            'email'      => 'required|string',
-            'password'   => 'required|string',
-        ],
-        [
-            'email.required' => 'Email Không được để trống',
-            'password.required' => 'Mật khẩu không được để trống',
-        ]);
+            [
+                'email' => 'required|string',
+                'password' => 'required|string',
+            ],
+            [
+                'email.required' => 'Email Không được để trống',
+                'password.required' => 'Mật khẩu không được để trống',
+            ]);
 
         if ($validator->fails()) {
-            notify()->error('Email hoặc mật khẩu không được để trống', 'Lỗi');
+            notify()->error('Email hoặc mật khẩu không được để trống', 'Thông báo');
             return back();
         }
 
@@ -53,7 +52,7 @@ class AuthController extends Controller
             $this->incrementLoginAttempts($request);
             $attempts = $this->getLoginAttempts($request);
 
-            notify()->error('Email hoặc mật khẩu không đúng. Số lần thử: ' . $attempts, 'Lỗi');
+            notify()->error('Email hoặc mật khẩu không đúng. Số lần thử: ' . $attempts, 'Thông báo');
             return back();
         }
 
@@ -63,103 +62,181 @@ class AuthController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function editProfile() {
-        return view('admin.auth.profile');
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users,email',
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/\.[a-z]{2,}$/i', $value)) {
+                        $fail('Email phải có tên miền hợp lệ.');
+                    }
+                },
+            ],
+            'username' => 'required|string|max:255|unique:users,username',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ],
+        [
+            'name.required' => 'Họ và tên không được để trống',
+            'name.max' => 'Họ và tên không được vượt quá 255 kí tự',
+            'email.max' => 'Email không được vượt quá 255 kí tự',
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email không đúng định dạng',
+            'email.unique' => 'Email đã tồn tại, vui lòng sử dụng email khác',
+            'username.max' => 'Tên tài khoản không được vượt quá 255 kí tự',
+            'username.required' => 'Tên tài khoản không được để trống',
+            'username.unique' => 'Tên tài khoản đã tồn tại, vui lòng sử dụng tên tài khoản khác',
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.confirmed' => 'Mật khẩu không khớp',
+            'password.min' => 'Mật khẩu phải trên 8 kí tự',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return back()->withErrors($errors)->withInput();
+        }
+
+        User::create([
+            'username' => $request->username,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'birthday' => $request->birthday,
+            'gender' => $request->gender,
+            'position' => $request->position,
+            'work_place' => $request->work_place,
+        ]);
+
+        notify()->success('Thêm tài khoản thành công', 'Thông báo');
+
+        return to_route('admin.users.index');
     }
 
-    // public function updateProfile(User $user, Request $request)
-    // {
-    //     $validator = Validator::make($request->all(),
-    //     [
-    //         'name' => 'required|string|max:255',
-    //         'email' => 'required|string|email|regex:/(.+)@(.+)\.(.+)/i|max:255',
-    //     ],
-    //     [
-    //         'email.required' => 'Email không được để trống',
-    //         'email.regex' => 'Email không đúng định dạng',
-    //         'name.required' => 'Tên tài khoản không được để trống',
-    //     ]);
+    public function editProfile()
+    {
+        $data = [];
 
-    //     if ($validator->fails()) {
-    //         $mess = $validator->errors()->get('*');
-    //         if(isset($mess['name'])) {
-    //             toastr()->addError($mess['name'][0]);
-    //         }
+        $user = User::find(Auth::user()->id);
 
-    //         if(isset($mess['email'])) {
-    //             toastr()->addError($mess['email'][0]);
-    //         }
+        $data['user'] = $user;
+        return view('admin.auth.profile', $data);
+    }
 
-    //         return back();
-    //     } else {
+    public function updateProfile(User $user, Request $request)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'name' => 'required|string|max:255,' . $user->id,
+                'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    'unique:users,email,' . $user->id,
+                    function ($attribute, $value, $fail) {
+                        if (!preg_match('/\.[a-z]{2,}$/i', $value)) {
+                            $fail('Email phải có tên miền hợp lệ.');
+                        }
+                    },
+                ],
+                'position' => 'max:255',
+                'work_place' => 'max:255',
+            ],
+            [
+                'name.required' => 'Họ và tên không được để trống',
+                'name.max' => 'Họ và tên không được vượt quá 255 kí tự',
+                'username.required' => 'Tên tài khoản không được để trống',
+                'username.max' => 'Tên tài khoản không được vượt quá 255 kí tự',
+                'username.unique' => 'Tên tài khoản đã tồn tại, vui lòng sử dụng tên tài khoản khác',
+                'email.required' => 'Email không được để trống',
+                'email.email' => 'Email không đúng định dạng',
+                'email.unique' => 'Email đã tồn tại, vui lòng sử dụng email khác',
+                'email.max' => 'Email không được vượt quá 255 kí tự',
+                'position.max' => 'Chức vụ không được vượt quá 255 kí tự',
+                'work_place.max' => 'Nơi làm việc không được vượt quá 255 kí tự',
+            ]);
 
-    //         $user->name = $request->name;
-    //         if($user->hasRole('admin')) {
-    //             $user->email = $request->email;
-    //         }
-    //         $user->save();
+        if ($validator->fails()) {
+            $errors = $validator->errors();
 
-    //         toastr()->addSuccess('Sửa thông tin tài khoản thành công');
+            foreach ($errors->all() as $error) {
+                notify()->error($error, 'Thông báo');
+            }
 
-    //         return back();
-    //     }
-    // }
+            return back()->withErrors($errors)->withInput();
+        }
 
-    // public function changePassword(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(),
-    //     [
-    //         'old_password'           => 'required',
-    //         'password'               => 'required|string|min:8',
-    //         'confirm_password'       => 'required|same:password',
-    //     ],
-    //     [
-    //         'password.required'             => 'Mật khẩu mới không được để trống',
-    //         'password.min'                  => 'Mật khẩu mới phải trên 8 kí tự',
-    //         'old_password.required'         => 'Mật khẩu cũ không được để trống',
-    //         'confirm_password.required'     => 'Mật khẩu xác nhận không được để trống',
-    //         'confirm_password.same'         => 'Mật khẩu không khớp',
-    //     ]);
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->birthday = $request->birthday;
+        $user->gender = $request->gender;
+        $user->position = $request->position;
+        $user->work_place = $request->work_place;
+        if (auth()->user()->hasRole('admin')) {
+            $user->email = $request->email;
+        }
 
-    //     if ($validator->fails()) {
-    //         // toastr()->addError('Mật khẩu không được để trống và phải trên 8 kí tự');
-    //         $error = $validator->messages();
+        $user->save();
 
-    //         if($error->get('password')) {
-    //             toastr()->addError($error->first('password'));
-    //         }
+        notify()->success('Sửa thông tin tài khoản thành công', 'Thông báo');
 
-    //         if($error->get('old_password')) {
-    //             toastr()->addError($error->first('old_password'));
-    //         }
+        return to_route('admin.users.index');
+    }
 
-    //         if($error->get('confirm_password')) {
-    //             toastr()->addError($error->first('confirm_password'));
-    //         }
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'old_password' => 'required',
+                'password' => 'required|string|min:8',
+                'confirm_password' => 'required|same:password',
+            ],
+            [
+                'password.required' => 'Mật khẩu mới không được để trống',
+                'password.min' => 'Mật khẩu mới phải trên 8 kí tự',
+                'old_password.required' => 'Mật khẩu cũ không được để trống',
+                'confirm_password.required' => 'Mật khẩu xác nhận không được để trống',
+                'confirm_password.same' => 'Mật khẩu không khớp',
+            ]);
 
-    //         return back();
-    //     }
+        if ($validator->fails()) {
+            $errors = $validator->errors();
 
-    //     $user = $request->user();
-    //     if(Hash::check($request->old_password, $user->password)) {
-    //         $user->update([
-    //             'password' => Hash::make($request->password)
-    //         ]);
+            foreach ($errors->all() as $error) {
+                notify()->error($error, 'Thông báo');
+            }
 
-    //         toastr()->addSuccess('Đổi mật khẩu thành công');
+            return back()->withErrors($errors)->withInput();
+        }
 
-    //         Auth::logoutOtherDevices($request->password);
-    //         Auth::guard('web')->logout();
-    //         $request->session()->invalidate();
-    //         $request->session()->regenerateToken();
+        $user = $request->user();
 
-    //         return redirect('/');
-    //     } else {
-    //         toastr()->addError('Mật khẩu hiện tại không đúng');
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
 
-    //         return back();
-    //     }
-    // }
+            notify()->success('Đổi mật khẩu thành công', 'Thông báo');
+
+            Auth::logoutOtherDevices($request->password);
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect('/');
+        } else {
+            notify()->error('Mật khẩu hiện tại không đúng', 'Thông báo');
+
+            return back();
+        }
+    }
 
     /**
      * Destroy an authenticated session.
@@ -180,30 +257,44 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function changePassUser(User $user, Request $request) {
+    public function changePassUser(User $user, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|min:8',
+        ], [
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
         $user->update([
             'password' => Hash::make($request->password)
         ]);
 
-        notify()->success('Đổi mật khẩu thành viên thành công', 'Thông báo');
-
-        return back();
+        return response()->json([
+            'success' => true,
+            'message' => 'Đổi mật khẩu thành viên thành công'
+        ]);
     }
 
-
-
-    ///
+    // /
     private function checkTooManyLoginAttempts(Request $request)
     {
-        $maxAttempts = 5; // Maximum number of attempts
-        $lockoutTime = 600; // Lockout time in seconds (e.g., 600 seconds = 10 minutes)
+        $maxAttempts = 5;  // Maximum number of attempts
+        $lockoutTime = 600;  // Lockout time in seconds (e.g., 600 seconds = 10 minutes)
 
         $key = $this->throttleKey($request);
         $ipKey = 'login_lockout:' . $request->ip();
 
         if (RateLimiter::tooManyAttempts($ipKey, 1)) {
             $seconds = RateLimiter::availableIn($ipKey);
-            notify()->error('Đăng nhập quá nhiều lần. Thử lại sau ' . $seconds . ' giây nữa.', 'Lỗi');
+            notify()->error('Đăng nhập quá nhiều lần. Thử lại sau ' . $seconds . ' giây nữa.', 'Thông báo');
             return true;
         }
 
@@ -217,7 +308,7 @@ class AuthController extends Controller
             RateLimiter::hit($key, $seconds);
             RateLimiter::hit($ipKey, $seconds);
 
-            notify()->error('Đăng nhập sai quá nhiều lần. Thử lại sau ' . $seconds . ' giây nữa.', 'Lỗi');
+            notify()->error('Đăng nhập sai quá nhiều lần. Thử lại sau ' . $seconds . ' giây nữa.', 'Thông báo');
             return true;
         }
 

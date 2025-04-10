@@ -55,22 +55,34 @@ Breadcrumbs::for('admin.tag.index', function (BreadcrumbTrail $trail) {
 });
 //Danh sách sách
 Breadcrumbs::for('admin.book.index', function (BreadcrumbTrail $trail) {
-    $trail->push('Danh sách sách',route('admin.book.index'));
+    $trail->push('Danh sách đầu sách',route('admin.book.index'));
 });
-//Thêm sách
+//Thêm đầu sách
 Breadcrumbs::for('admin.book.create',function (BreadcrumbTrail $trail) {
     $trail->parent('admin.book.index');
-    $trail->push('Thêm sách',route('admin.book.create'));
+    $trail->push('Thêm đầu sách',route('admin.book.create'));
 });
-//Chỉnh sửa sách
+//Chỉnh sửa đầu sách
 Breadcrumbs::for('admin.book.edit',function (BreadcrumbTrail $trail,$book) {
     $trail->parent('admin.book.index');
     $trail->push($book->name,route('admin.book.edit',$book));
 });
-//Xem sách
-Breadcrumbs::for('admin.book.show',function (BreadcrumbTrail $trail,$book) {
+//Danh sách sách
+Breadcrumbs::for('admin.book.item.index',function (BreadcrumbTrail $trail,$book) {
     $trail->parent('admin.book.index');
-    $trail->push($book->name,route('admin.book.show',$book));
+    $trail->push('Danh sách sách',route('admin.book.item.index',$book));
+
+});
+//Danh sách sách -> Thêm sách
+Breadcrumbs::for('admin.book.item.create',function (BreadcrumbTrail $trail,$book) {
+    $trail->parent('admin.book.item.index',$book);
+    $trail->push('Thêm sách',route('admin.book.item.create',$book));
+
+});
+//Danh sách sách -> Chỉnh sửa sách
+Breadcrumbs::for('admin.book.item.edit', function (BreadcrumbTrail $trail, $book, $bookItem) {
+    $trail->parent('admin.book.item.index', $book);
+    $trail->push('Chỉnh sửa sách', route('admin.book.item.edit', ['book' => $book, 'item' => $bookItem]));
 });
 //Danh sách khách hàng
 Breadcrumbs::for('admin.customer.index', function (BreadcrumbTrail $trail) {
@@ -131,6 +143,11 @@ Breadcrumbs::for('admin.permissions.show', function (BreadcrumbTrail $trail, $pe
 // Quản lý thành viên
 Breadcrumbs::for('admin.users.index', function (BreadcrumbTrail $trail) {
     $trail->push('Danh sách thành viên', route('admin.users.index'));
+});
+// Quản lý thành viên > Thêm thành viên
+Breadcrumbs::for('admin.users.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.users.index');
+    $trail->push('Thêm thành viên', route('admin.users.create'));
 });
 
 // Quản lý thành viên > Thông tin thành viên

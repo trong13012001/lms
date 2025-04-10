@@ -120,7 +120,7 @@
                                             @endif
                                         </div>
                                         <x-modal-issued-book :id="$item->id" :customers="$customers"/>
-                                            <x-modal-del id="{{ $item->id }}" name="sách"
+                                            <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}" name="sách"
                                             route="admin.book_item.destroy" />
                                             <div class="modal fade text-left" id="editBookItem-{{ $item->id }}" tabindex="-1">
                                                 <div class="modal-dialog modal-dialog-popout modal-dialog-centered modal-dialog-scrollable modal-custom modal-xl">

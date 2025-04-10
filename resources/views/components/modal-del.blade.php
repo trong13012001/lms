@@ -1,4 +1,4 @@
-@props(['id', 'name', 'route'])
+@props(['id', 'name', 'route', 'params'])
 
 <div class="modal fade modal-del" id="modal-delete-{{ $id }}" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -17,7 +17,7 @@
                     <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-dismiss="modal">
                         <span class="d-none d-sm-block">Huỷ</span>
                     </button>
-                    <form method="POST" action="{{ route($route, $id) }}">
+                    <form method="POST" action="{{ route($route, $params) }}">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger ms-1" data-bs-dismiss="modal">

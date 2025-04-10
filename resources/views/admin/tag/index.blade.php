@@ -68,7 +68,7 @@
                                                 </button>
                                             @endif
                                         </div>
-                                        <x-modal-del id="{{ $item->id }}" name="nhãn"
+                                        <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}" name="nhãn"
                                             route="admin.tag.destroy" />
                                         <div class="modal fade text-left" id="editBook-{{ $item->id }}"
                                             tabindex="-1">

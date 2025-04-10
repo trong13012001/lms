@@ -3,128 +3,72 @@
         Thêm sách
     </x-slot>
     <x-slot name="breadcrumb">
-        {{ Breadcrumbs::render('admin.book.create') }}
+        {{ Breadcrumbs::render('admin.book.item.create',$book->id) }}
     </x-slot>
-    <form method="POST" action="{{ route('admin.book.store') }}" enctype="multipart/form-data" id="book-form">
+    <form method="POST" action="{{ route('admin.book.item.store',$book->id) }}" enctype="multipart/form-data" id="book-form">
         @csrf
+        <input type="hidden" name="book_id" value="{{$book->id}}">
         <div class="row">
-            <div class="col-7">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            {{-- <model-add :relic="{{ json_encode($relic) }}" :exhibit="{{ json_encode($exhibit) }}" name="Loại tài liệu"></model-add> --}}
-
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="name">Sách <span
+                                    <label class="form-label" for="authors[]">Nhà xuất bản<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        id="name" name="name" placeholder="Nhập sách "
-                                        value="{{ old('name') }}" />
-                                    @error('name')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label" for="authors[]">Tác giả<span
-                                            class="text-danger">*</span></label>
-                                            <select class="choices form-select multiple-remove" multiple="multiple" name="authors[]">
-                                                <option placeholder>Tìm kiếm hoặc chọn tác giả</option>
-                                                @foreach ($authors as $author)
-                                                    <option value="{{ $author['id'] }}">{{ $author['name'] }}</option>
+                                            <select class="choices form-select" name="publisher_id">
+                                                <option placeholder>Tìm kiếm hoặc chọn nhà xuất bản</option>
+                                                @foreach ($publishers as $publisher)
+                                                    <option value="{{ $publisher['id'] }}">{{ $publisher['name'] }}</option>
                                                 @endforeach
                                             </select>
-                                    @error('authors[]')
+                                    @error('publisher_id')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="isbn">ISBN<span
+                                    <label class="form-label" for="book_code">Mã sách<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('isbn') is-invalid @enderror"
-                                        id="isbn" name="isbn" placeholder="Nhập ISBN "
-                                        value="{{ old('isbn') }}" />
-                                    @error('isbn')
+                                    <input type="text" class="form-control @error('book_code') is-invalid @enderror"
+                                        id="book_code" name="book_code" placeholder="Nhập ISBN "
+                                        value="{{ old('book_code') }}" />
+                                    @error('book_code')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="published_on">Ngày phát hành<span
+                                    <label class="form-label" for="location">Vị trí để sách<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="js-flatpickr form-control" name="published_on"
-                                        placeholder="Y-m-d"  value="{{ old('published_on') }}">
+                                            <input class="form-control" name="location" id="location" placeholder="Nhập vị trí để sách" value="{{old('location') }}">
 
-                                    @error('published_on')
+
+                                    @error('location')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Giới thiệu sách</label>
-                                    <textarea rows="3" class="mb-3 d-none" name="description" id="description" placeholder="Nhập giới thiệu sách ">{{ old('description') }}</textarea>
+
+                                    <label class="form-label" for="published_at">Vị trí để sách<span
+                                            class="text-danger">*</span></label>
+                                            <input type="text" class="js-flatpickr form-control" name="published_at"
+                                            placeholder="Y-m-d" value="{{ old('published_at') }}">
+
+                                    @error('published_at')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
-
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Thêm
                                 sách</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="body-card">
-                            <div class="form-group mb-3">
-                                <upload-file title="Ảnh đại diện" name="image" id="image" type="image"
-                                    url="{{ route('unisharp.lfm.show') }}" value="{{ old('image') }}" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <div class="header-card mb-3">
-                            <h5 class="card-title mb-0">Thể loại</h5>
-                        </div>
-                        <div class="body-card">
-                            <select class="choices form-select multiple-remove" multiple="multiple" name="genres[]">
-                                <option placeholder>Tìm kiếm hoặc chọn thể loại</option>
-                                @foreach ($genres as $genre)
-                                    <option value="{{ $genre['id'] }}">{{ $genre['name'] }}</option>
-                                @endforeach
-                            </select>
-                            @error('genres[]')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                        @enderror
-                        </div>
-                    </div>
-                </div>
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <div class="header-card mb-3">
-                            <h5 class="card-title mb-0">Nhãn</h5>
-                        </div>
-                        <div class="body-card">
-                            <select class="choices form-select multiple-remove" multiple="multiple" name="tags[]">
-                                <option placeholder>Tìm kiếm hoặc chọn nhãn</option>
-                                @foreach ($tags as $tag)
-                                    <option value="{{ $tag['id'] }}">{{ $tag['name'] }}</option>
-                                @endforeach
-                            </select>
-                            @error('tags[]')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                        @enderror
                         </div>
                     </div>
                 </div>

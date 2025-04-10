@@ -68,7 +68,7 @@
                                                 </button>
                                             @endif
                                         </div>
-                                        <x-modal-del id="{{ $item->id }}" name="nhà xuất bản"
+                                        <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}" name="nhà xuất bản"
                                             route="admin.publisher.destroy" />
                                     </td>
                                 </tr>

@@ -52,7 +52,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="phone">Số điện thoại<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="phone" placeholder="Nhập số điện thoại" value="{{ old('phone') }}">
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" placeholder="Nhập số điện thoại" value="{{ old('phone') }}">
                                     @error('phone')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
@@ -62,7 +62,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="address">Địa chỉ<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ" value="{{ old('address') }}">
+                                    <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" placeholder="Nhập địa chỉ" value="{{ old('address') }}">
                                     @error('address')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror

@@ -29,6 +29,7 @@ Route::middleware(['auth', 'auth.session', 'role:admin'])->name('admin.')->prefi
     Route::post('/permissions/{permission}/roles', [PermissionController::class, 'assignRole'])->name('permissions.roles');
     Route::delete('/permissions/{permission}/roles/{role}', [PermissionController::class, 'removeRole'])->name('permissions.roles.remove');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::post('/users/{user}/roles', [UserController::class, 'assignRole'])->name('users.roles');
@@ -68,21 +69,26 @@ Route::middleware(['auth', 'auth.session', 'permission'])->group(function () {
         'update'=>'admin.tag.update',
         'destroy'=>'admin.tag.destroy',
     ]);
-    Route::resource('book', BookController::class)->names([
-        'index'=>'admin.book.index',
-        'create'=>'admin.book.create',
-        'store'=>'admin.book.store',
-        'edit'=>'admin.book.edit',
-        'update'=>'admin.book.update',
-        'show'=>'admin.book.show',
-        'destroy'=>'admin.book.destroy',
-    ]);
-    Route::resource('book_item', BookItemController::class)->names([
+    Route::group(['prefix' => '/', 'as' => 'admin.'], function () {
+        Route::resource('book', BookController::class)->names([
+            'index' => 'book.index',
+            'create' => 'book.create',
+            'store' => 'book.store',
+            'edit' => 'book.edit',
+            'update' => 'book.update',
+            'show' => 'book.show',
+            'destroy' => 'book.destroy',
+        ]);
 
-        'store'=>'admin.book_item.store',
-        'update'=>'admin.book_item.update',
-        'destroy'=>'admin.book_item.destroy',
-    ]);
+        Route::resource('book.item', BookItemController::class)
+            ->names([
+                'store' => 'book.item.store',
+                'update' => 'book.item.update',
+                'destroy' => 'book.item.destroy',
+                'edit' => 'book.item.edit',
+                'create'=>'book.item.create',
+            ]);
+    });
     Route::resource('customer', CustomerController::class)->names([
         'index'=>'admin.customer.index',
         'create'=>'admin.customer.create',

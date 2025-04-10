@@ -31,9 +31,12 @@
                             </div>
 
                         </div>
+                        @if(auth()->user()->can('admin.author.store'))
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Thêm tác giả</button>
                         </div>
+                        @endif
+
                     </div>
                 </div>
             </div>

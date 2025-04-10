@@ -1,17 +1,54 @@
 <x-admin-layout>
     <x-slot name="title">Sách</x-slot>
     <x-slot name="breadcrumb">
-        {{ Breadcrumbs::render('admin.book.index') }}
+        {{ Breadcrumbs::render('admin.book.item.index',$book) }}
     </x-slot>
     <div class="card">
         <div class="card-body">
             <div class="header-card mb-3">
+                <div class="book-details d-flex align-items-start">
+                    <div class="book-image me-3">
+                        <img class="img-fluid" style="max-width: 263px; max-height: 263px; object-fit: cover;"
+                             src="{{ image($book['image'] ? $book['image'] : '/assets/no-image.png', 263, 0) }}"
+                             alt="{{ $book['name'] }}" />
+                    </div>
+                    <div class="book-info">
+                        <h5 class="mb-2">{{ $book['name'] }}</h5>
+                        <div>
+                            <b>Tác giả:</b> @foreach ($book->authors as $author)
+                            {{ $author->name }}@if (!$loop->last), @endif
+                        @endforeach
+                        </div>
+                        <div>
+                            <b>Thể loại:</b> @foreach ($book->genres as $genre)
+                            {{ $genre->name }}@if (!$loop->last), @endif
+                        @endforeach
+                        </div>
+                        <div>
+                            <b>Nhãn:</b> @foreach ($book->tags as $tag)
+                            {{ $tag->name }}@if (!$loop->last), @endif
+                        @endforeach
+                        </div>
+                        <div>
+                            <b>Phát hành lần đầu:</b>
+                            @if($book['published_on'] instanceof \DateTime)
+                                {{ $book['published_on']->format('d-m-Y') }}
+                            @elseif(is_string($book['published_on']))
+                                {{ \Carbon\Carbon::parse($book['published_on'])->format('d-m-Y') }}
+                            @else
+                                N/A
+                            @endif
+                        </div>
+                        <div><b>Nội dung:</b> {!! $book['description'] !!}</div>
+                    </div>
+                </div>
+
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0"></h5>
-                    @if (auth()->user()->can('admin.book.store'))
+                    @if (auth()->user()->can('admin.book.item.store'))
                         <div>
-                            <a href="{{ route('admin.book.create') }}" class="btn bg-gd-aqua text-white text-sm mb-0">
-                                <i class="fa fa-circle-plus me-1"></i>
+                            <a href="{{ route('admin.book.item.create', ['book' => $book->id]) }}" class="btn bg-gd-aqua text-white text-sm mb-0">
+                                <i class="tf-icons fa fa-circle-plus me-1"></i>
                                 Thêm sách
                             </a>
                         </div>
@@ -19,17 +56,19 @@
                 </div>
             </div>
             <div class="body-card">
-                <form method="GET" action="{{ route('admin.book.index') }}" id="filterForm">
+                <form method="GET" action="{{ route('admin.book.show',$book) }}" id="filterForm">
                     <div class="row align-items-center mb-3">
                         <div class="col-4">
-                            <input type="text" class="form-control" name="name" value="{{ Request::get('name') }}"
+                            <input type="text" class="form-control" name="book_code" value="{{ Request::get('book_code') }}"
                                 placeholder="Tìm kiếm sách" />
                         </div>
                         <div class="col-5">
                             <button type="submit" class="btn bg-gd-sea-op text-white me-2"><i
                                     class="fa fa-filter me-1"></i>Lọc</button>
-                            <a href="{{ route('admin.book.index') }}" class="btn bg-gd-fruit-op text-white ms-2"><i
-                                    class="fa fa-filter-circle-xmark me-1"></i>Bỏ lọc</a>
+                                    <a href="{{ url('/book/' . $book->id) }}" class="btn bg-gd-fruit-op text-white ms-2"><i
+                                        class="fa fa-filter-circle-xmark me-1"></i>Bỏ lọc</a>
+
+
                         </div>
                     </div>
                 </form>
@@ -38,49 +77,48 @@
                         <thead>
                             <tr>
                                 <th width="15px">#</th>
-                                <th style="width:150px">Ảnh</th>
-                                <th>Sách</th>
-                                <th>Xuất bản</th>
-                                <th>Tác giả</th>
-                                <th>Thể loại</th>
-                                <th>Nhãn</th>
-                                <th class="text-center" style="width:150px">Hành động</th>
+                                <th>Mã sách</th>
+                                <th>Vị trí để sách</th>
+                                <th>Năm xuất bản</th>
+                                <th>Trạng thái</th>
+                                <th style="width:150px">Hành động</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @forelse ($books as $item)
+                            @forelse ($items as $item)
                                 <tr>
-                                    <td>{{ ($books->currentPage() - 1) * $books->perPage() + $loop->iteration }}
+                                    <td>{{ ($items->currentPage() - 1) * $items->perPage() + $loop->iteration }}
                                     </td>
-                                    <td>
-                                        <img class="img-table" src="{{image($item->image ? $item->image : '/assets/no-image.png', 120, 0)}}" alt="{{ $item->image }}"/>
-                                    </td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{$item->published_on}}</td>
-                                    <td>
-                                        @foreach ($item->authors as $author)
-                                            {{ $author->name }}@if (!$loop->last), @endif
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($item->genres as $genre )
-                                            {{ $genre->name }}@if (!$loop->last), @endif
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($item->tags as $tag )
-                                            {{ $tag->name }}@if (!$loop->last), @endif
-                                        @endforeach
-                                    </td>
+                                    <td>{{ $item->book_code }}</td>
+                                    <td>{{ $item->location }}</td>
+                                    <td>{{$item->published_at}}</td>
+                                    <td>@if ($item->status==1)
+                                        <span class="text-success">Khả dụng</span>
+                                    @else
+                                        <span class="text-warning">Đang mượn</span>
 
-                                    <td class="text-center">
+                                    @endif</td>
+                                    {{-- {{-- <td>{{$item->issuedBooks}}</td> --}}
+                                    <td>
+
                                         <div class="btn-group" style="gap: 10px;">
-                                            @if (auth()->user()->can('admin.book.update'))
-                                            <a class="btn btn-sm btn-alt-success rounded-0" href="{{ route('admin.book.edit', $item->id) }}">
+                                            @if ($item->status==1)
+                                            @if (auth()->user()->can('admin.issued_book.store'))
+                                            <button type="button"
+                                                class="btn btn-sm btn-alt-primary js-bs-tooltip-enabled rounded-0"
+                                                data-bs-target="#modal-issued-book-{{ $item->id }}"
+                                                data-bs-toggle="modal">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            @endif
+                                        @endif
+                                            @if (auth()->user()->can('admin.book.item.update')||auth()->user()->can('admin.book.item.edit'))
+                                            <a href="{{ route('admin.book.item.edit', ['book' => $book->id, 'item' => $item->id]) }}"
+                                                class="btn btn-sm btn-alt-success js-bs-tooltip-enabled rounded-0">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
                                             @endif
-                                            @if (auth()->user()->can('admin.book.destroy'))
+                                            @if (auth()->user()->can('admin.book_item.destroy'))
                                                 <button type="button"
                                                     class="btn btn-sm btn-alt-danger js-bs-tooltip-enabled rounded-0"
                                                     data-bs-toggle="modal" aria-label="Delete"
@@ -89,20 +127,74 @@
                                                 </button>
                                             @endif
                                         </div>
-                                        <x-modal-del id="{{ $item->id }}" name="sách"
-                                            route="admin.book.destroy" />
+                                        <x-modal-issued-book :id="$item->id" :customers="$customers"/>
+                                            <x-modal-del id="{{ $item->id }}" name="sách" route="admin.book.item.destroy" :params="['book' => $book->id, 'item' => $item->id]"/>
+                                            <div class="modal fade text-left" id="editBookItem-{{ $item->id }}" tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-popout modal-dialog-centered modal-dialog-scrollable modal-custom modal-xl">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-gd-sea-op">
+                                                            <h4 class="modal-title text-white">Sửa sách</h4>
+                                                        </div>
+                                                        <form id="tag-update-form-{{ $item->id }}"
+                                                            action="{{ route('admin.book.item.update',['book' => $book->id, 'item' => $item->id]) }}"
+                                                            method="post">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <div class="modal-body pb-0">
+                                                                <div class="mb-3">
+                                                                    <input type="hidden" name="book_id" value="{{$book->id}}">
+                                                                    <label class="form-label">Nhà xuất bản</label>
+                                                                    <select class="choices form-select" name="publisher_id" required>
+                                                                        <option placeholder value="">Tìm hoặc chọn nhà xuất bản</option>
+                                                                        @foreach ($publishers as $publisher)
+                                                                            <option value="{{ $publisher['id'] }}" {{ $item->publisher_id == $publisher['id'] ? 'selected' : '' }}>
+                                                                                {{ $publisher['name'] }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Mã sách</label>
+                                                                    <input id="name-{{ $item->id }}" type="text" class="form-control" name="book_code"
+                                                                        placeholder="Nhập mã sách" value="{{ old('book_code', $item->book_code) }}" />
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Vị trí để sách</label>
+                                                                    <input class="form-control" name="location" id="location-{{ $item->id }}" placeholder="Nhập vị trí để sách" value="{{ $item->location }}">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Năm xuất bản</label>
+                                                                    <input type="text" class="js-flatpickr form-control" name="published_at"
+                                                                    placeholder="Y-m-d" value="{{ old('published_at', $item->published_at) }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-label-secondary me-1"
+                                                                    data-bs-dismiss="modal">
+                                                                    <span class="d-none d-sm-block">Huỷ</span>
+                                                                </button>
+                                                                <button type="submit" id="submitUpdateButton-{{ $item->id }}"
+                                                                    class="btn bg-gd-sea-op text-white ms-1">
+                                                                    <span class="d-none d-sm-block">Sửa sách</span>
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-gray-500">Không tìm thấy dữ liệu</td>
+                                    <td colspan='5' class="text-center text-gray-500">Không tìm thấy dữ liệu</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
                 <div class="db-pagination">
-                    {{ $books->links() }}
+                    {{ $items->links() }}
                 </div>
             </div>
         </div>

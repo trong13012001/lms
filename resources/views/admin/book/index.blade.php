@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <x-slot name="title">Sách</x-slot>
+    <x-slot name="title">Đầu sách</x-slot>
     <x-slot name="breadcrumb">
         {{ Breadcrumbs::render('admin.book.index') }}
     </x-slot>
@@ -12,7 +12,7 @@
                         <div>
                             <a href="{{ route('admin.book.create') }}" class="btn bg-gd-aqua text-white text-sm mb-0">
                                 <i class="fa fa-circle-plus me-1"></i>
-                                Thêm sách
+                                Thêm đầu sách
                             </a>
                         </div>
                     @endif
@@ -23,7 +23,7 @@
                     <div class="row align-items-center mb-3">
                         <div class="col-4">
                             <input type="text" class="form-control" name="name" value="{{ Request::get('name') }}"
-                                placeholder="Tìm kiếm sách" />
+                                placeholder="Tìm kiếm đầu sách" />
                         </div>
                         <div class="col-5">
                             <button type="submit" class="btn bg-gd-sea-op text-white me-2"><i
@@ -81,8 +81,8 @@
 
                                     <td class="text-center">
                                         <div class="btn-group" style="gap: 10px;">
-                                            @if(auth()->user()->can('admin.book.show'))
-                                            <a class="btn btn-sm bg-xpro-lighter rounded-0 btn-edit" href="{{ route('admin.book.show', $item->id) }}">
+                                            @if(auth()->user()->can('admin.book.item.index'))
+                                            <a class="btn btn-sm bg-xpro-lighter rounded-0 btn-edit" href="{{ route('admin.book.item.index', $item->id) }}">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                             @endif
@@ -101,7 +101,7 @@
                                                 </button>
                                             @endif
                                         </div>
-                                        <x-modal-del id="{{ $item->id }}" name="sách"
+                                        <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}" name="sách"
                                             route="admin.book.destroy" />
                                     </td>
                                 </tr>

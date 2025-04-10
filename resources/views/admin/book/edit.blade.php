@@ -1,6 +1,6 @@
 <x-admin-layout>
     <x-slot name="title">
-        Chỉnh sửa sách
+        Sửa đầu sách
     </x-slot>
     <x-slot name="breadcrumb">
         {{ Breadcrumbs::render('admin.book.edit', $book) }}
@@ -15,9 +15,9 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="name">Sách <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="name">Đầu sách <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        id="name" name="name" placeholder="Nhập sách"
+                                        id="name" name="name" placeholder="Nhập đầu sách"
                                         value="{{ old('name', $book->name) }}" />
                                     @error('name')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -63,8 +63,8 @@
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="description">Giới thiệu sách</label>
-                                    <textarea rows="3" class="mb-3" name="description" id="description" placeholder="Nhập giới thiệu sách">{{ old('description', $book->description) }}</textarea>
+                                    <label class="form-label" for="description">Giới thiệu đầu sách</label>
+                                    <textarea rows="3" class="mb-3" name="description" id="description" placeholder="Nhập giới thiệu đầu sách">{{ old('description', $book->description) }}</textarea>
                                 </div>
                             </div>
                         </div>

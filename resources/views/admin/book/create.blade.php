@@ -1,6 +1,6 @@
 <x-admin-layout>
     <x-slot name="title">
-        Thêm sách
+        Thêm đầu sách
     </x-slot>
     <x-slot name="breadcrumb">
         {{ Breadcrumbs::render('admin.book.create') }}
@@ -16,10 +16,10 @@
 
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="name">Sách <span
+                                    <label class="form-label" for="name">Đầu sách <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        id="name" name="name" placeholder="Nhập sách "
+                                        id="name" name="name" placeholder="Nhập đầu sách "
                                         value="{{ old('name') }}" />
                                     @error('name')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -68,14 +68,14 @@
 
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Giới thiệu sách</label>
-                                    <textarea rows="3" class="mb-3 d-none" name="description" id="description" placeholder="Nhập giới thiệu sách ">{{ old('description') }}</textarea>
+                                    <label class="form-label">Giới thiệu đầu sách</label>
+                                    <textarea rows="3" class="mb-3 d-none" name="description" id="description" placeholder="Nhập giới thiệu đầu sách ">{{ old('description') }}</textarea>
                                 </div>
                             </div>
 
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Thêm
+                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Thêm đầu
                                 sách</button>
                         </div>
                     </div>

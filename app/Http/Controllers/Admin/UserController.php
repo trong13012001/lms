@@ -9,16 +9,20 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $data = [];
 
-        $users = User::filter()->paginate(10);
+        $users = User::filter($request->all())->paginate(10)->withQueryString();
 
         $data['users'] = $users;
 
 
         return view('admin.users.index', $data);
+    }
+
+    public function create() {
+        return view('admin.users.create');
     }
 
     public function show($id)
@@ -36,9 +40,17 @@ class UserController extends Controller
 
     public function assignRole(Request $request, User $user)
     {
+        $request->validate([
+            'role' => 'required|exists:roles,name',
+
+        ],
+        [
+        'role.required' => 'Vai trò không được bỏ trống',
+        'role.exists' => 'Vai trò không tồn tại',
+        ]);
         if ($user->hasRole($request->role)) {
 
-            notify()->error('Thành viên đã có vai trò này', 'Lỗi');
+            notify()->error('Thành viên đã có vai trò này', 'Thông báo');
 
             return back();
         }
@@ -61,7 +73,7 @@ class UserController extends Controller
             return back();
         }
 
-        notify()->error('Vai trò này không tồn tại', 'Lỗi');
+        notify()->error('Vai trò này không tồn tại', 'Thông báo');
 
         return back();
     }
@@ -69,15 +81,30 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->hasRole('admin')) {
-
-            notify()->error('Thành viên này không thể xoá', 'Lỗi');
-
+            notify()->error('Thành viên này không thể xoá', 'Thông báo');
             return back();
         }
 
+        $currentPage = request()->get('page', 1);
+        $perPage = 10;
+        $searchParams = request()->only(['username']);
+
+        $query = User::query();
+        if (!empty($searchParams['username'])) {
+            $query->where('username', 'like', '%' . $searchParams['username'] . '%');
+        }
+
+        $totalUsers = $query->count();
         $user->delete();
 
-        notify()->success('Xoá thành viên thành công', 'Thông báo');
+        $newTotalUsers = $totalUsers - 1;
+        $maxPage = max(1, ceil($newTotalUsers / $perPage));
+
+        notify()->success('Xóa thành viên thành công', 'Thông báo');
+
+        if ($currentPage > $maxPage) {
+            return redirect()->route('admin.users.index', array_merge($searchParams, ['page' => $maxPage]));
+        }
 
         return back();
     }

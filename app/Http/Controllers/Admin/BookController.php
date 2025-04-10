@@ -77,12 +77,16 @@ class BookController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|unique:books,name',
+                'name' => 'required|unique:books,name,'.$id,
+                'isbn' =>'required|unique:books,isbn,'.$id,
+                'published_on' =>'required',
             ],
             [
                 'name.required'=>'Sách không được bỏ trống',
-                'name.unique' => 'Sách đã tồn tại'
-
+                'name.unique' => 'Sách đã tồn tại',
+                'isbn.required' => 'ISBN không được bỏ trống',
+                'isbn.unique' => 'ISBN đã tồn tại',
+                'published_on.required' => 'Ngày phát hành không được bỏ trống',
             ]
             );
         $book=Book::find($id);
@@ -91,6 +95,18 @@ class BookController extends Controller
            'description'=>$request->description,
            'image'=>$request->image
         ]);
+        // Handle authors
+        $authors_id = $request->authors;
+        $authors = Author::find($authors_id);
+        $book->authors()->sync($authors);
+        // Handle genres
+        $genres_id = $request->genres;
+        $genres = Genre::find($genres_id);
+        $book->genres()->sync($genres);
+        // Handle tags
+        $tags_id = $request->tags;
+        $tags = Tag::find($tags_id);
+        $book->tags()->sync($tags);
         notify()->success('Cập nhật sách thành công','Thông báo');
         return to_route('admin.book.index');
         }
@@ -111,7 +127,7 @@ class BookController extends Controller
             $customers = Customer::all();
             $items = $book->items()->filter($request->all())->paginate(10);
             // dd($customers);
-            // dd($items);
+            // dd($items);http://127.0.0.1:8000/book/1
             return view('admin.book.show', compact('book', 'items','publishers','customers'));
         }
 

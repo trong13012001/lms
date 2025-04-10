@@ -79,7 +79,7 @@
                                                 </button>
                                             @endif
                                         </div>
-                                        <x-modal-del id="{{ $item->id }}" name="khách hàng"
+                                        <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}" name="khách hàng"
                                             route="admin.customer.destroy" />
                                     </td>
                                 </tr>

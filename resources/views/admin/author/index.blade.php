@@ -8,7 +8,7 @@
             <div class="header-card mb-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0"></h5>
-                    @if (auth()->user()->can('admin.author.store'))
+                    @if (auth()->user()->can('admin.author.create'))
                         <div>
                             <a href="{{ route('admin.author.create') }}" class="btn bg-gd-aqua text-white text-sm mb-0">
                                 <i class="fa fa-circle-plus me-1"></i>
@@ -68,8 +68,7 @@
                                                 </button>
                                             @endif
                                         </div>
-                                        <x-modal-del id="{{ $item->id }}" name="tác giả"
-                                            route="admin.author.destroy" />
+                                        <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}"  name="tác giả" route="admin.author.destroy"/>
                                     </td>
                                 </tr>
                             @empty
