@@ -112,7 +112,7 @@
                                             </button>
                                             @endif
                                         @endif
-                                            @if (auth()->user()->can('admin.book.item.update')||auth()->user()->can('admin.book.item.edit'))
+                                            @if (auth()->user()->can('admin.book.item.edit'))
                                             <a href="{{ route('admin.book.item.edit', ['book' => $book->id, 'item' => $item->id]) }}"
                                                 class="btn btn-sm btn-alt-success js-bs-tooltip-enabled rounded-0">
                                                 <i class="fa fa-pencil-alt"></i>
@@ -123,66 +123,12 @@
                                                     class="btn btn-sm btn-alt-danger js-bs-tooltip-enabled rounded-0"
                                                     data-bs-toggle="modal" aria-label="Delete"
                                                     data-bs-target="#modal-delete-{{ $item->id }}">
-                                                    <i class="fa fa-times"></i>
+                                                    <i class="fa fa-trash"></i>
                                                 </button>
                                             @endif
                                         </div>
                                         <x-modal-issued-book :id="$item->id" :customers="$customers"/>
                                             <x-modal-del id="{{ $item->id }}" name="sách" route="admin.book.item.destroy" :params="['book' => $book->id, 'item' => $item->id]"/>
-                                            <div class="modal fade text-left" id="editBookItem-{{ $item->id }}" tabindex="-1">
-                                                <div class="modal-dialog modal-dialog-popout modal-dialog-centered modal-dialog-scrollable modal-custom modal-xl">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-gd-sea-op">
-                                                            <h4 class="modal-title text-white">Sửa sách</h4>
-                                                        </div>
-                                                        <form id="tag-update-form-{{ $item->id }}"
-                                                            action="{{ route('admin.book.item.update',['book' => $book->id, 'item' => $item->id]) }}"
-                                                            method="post">
-                                                            @method('PUT')
-                                                            @csrf
-                                                            <div class="modal-body pb-0">
-                                                                <div class="mb-3">
-                                                                    <input type="hidden" name="book_id" value="{{$book->id}}">
-                                                                    <label class="form-label">Nhà xuất bản</label>
-                                                                    <select class="choices form-select" name="publisher_id" required>
-                                                                        <option placeholder value="">Tìm hoặc chọn nhà xuất bản</option>
-                                                                        @foreach ($publishers as $publisher)
-                                                                            <option value="{{ $publisher['id'] }}" {{ $item->publisher_id == $publisher['id'] ? 'selected' : '' }}>
-                                                                                {{ $publisher['name'] }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Mã sách</label>
-                                                                    <input id="name-{{ $item->id }}" type="text" class="form-control" name="book_code"
-                                                                        placeholder="Nhập mã sách" value="{{ old('book_code', $item->book_code) }}" />
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Vị trí để sách</label>
-                                                                    <input class="form-control" name="location" id="location-{{ $item->id }}" placeholder="Nhập vị trí để sách" value="{{ $item->location }}">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Năm xuất bản</label>
-                                                                    <input type="text" class="js-flatpickr form-control" name="published_at"
-                                                                    placeholder="Y-m-d" value="{{ old('published_at', $item->published_at) }}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-label-secondary me-1"
-                                                                    data-bs-dismiss="modal">
-                                                                    <span class="d-none d-sm-block">Huỷ</span>
-                                                                </button>
-                                                                <button type="submit" id="submitUpdateButton-{{ $item->id }}"
-                                                                    class="btn bg-gd-sea-op text-white ms-1">
-                                                                    <span class="d-none d-sm-block">Sửa sách</span>
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                     </td>
                                 </tr>
                             @empty

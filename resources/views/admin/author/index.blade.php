@@ -54,7 +54,7 @@
                                     <td>{{ $item->name }}</td>
                                     <td class="text-center">
                                         <div class="btn-group" style="gap: 10px;">
-                                            @if (auth()->user()->can('admin.author.update'))
+                                            @if (auth()->user()->can('admin.author.edit'))
                                             <a class="btn btn-sm btn-alt-success rounded-0" href="{{ route('admin.author.edit', $item->id) }}">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
@@ -64,7 +64,7 @@
                                                     class="btn btn-sm btn-alt-danger js-bs-tooltip-enabled rounded-0"
                                                     data-bs-toggle="modal" aria-label="Delete"
                                                     data-bs-target="#modal-delete-{{ $item->id }}">
-                                                    <i class="fa fa-times"></i>
+                                                    <i class="fa fa-trash"></i>
                                                 </button>
                                             @endif
                                         </div>

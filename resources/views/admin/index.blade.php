@@ -45,6 +45,7 @@
                                     @if(auth()->user()->can('admin.tag.index'))
                                         <x-sidebar :submenu="false" :href="route('admin.tag.index')" :active="request()->routeIs('admin.tag.index')" icon="" name="Nhãn"/>
                                     @endif
+
                                     @if(auth()->user()->hasRole('admin'))
 
 

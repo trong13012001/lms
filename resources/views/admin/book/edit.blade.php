@@ -68,9 +68,12 @@
                                 </div>
                             </div>
                         </div>
+                        @if (auth()->user()->can('admin.book.update'))
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Cập nhật sách</button>
+                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Sửa đầu sách</button>
                         </div>
+                        @endif
+
                     </div>
                 </div>
             </div>

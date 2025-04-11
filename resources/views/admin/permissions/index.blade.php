@@ -43,7 +43,7 @@
                                         </a>
                                         <button type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
                                             data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $item->id }}">
-                                            <i class="fa fa-times"></i>
+                                            <i class="fa fa-trash"></i>
                                         </button>
                                     </div>
                                     <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}"  name="phân quyền" route="admin.permissions.destroy"/>

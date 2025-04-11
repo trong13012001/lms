@@ -50,7 +50,7 @@
                                         </a>
                                         <button type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
                                             data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $item->id }}">
-                                            <i class="fa fa-times"></i>
+                                            <i class="fa fa-trash"></i>
                                         </button>
                                     </div>
                                     <x-modal-del id="{{ $item->id }}" name="Tài khoản" params="{{$item->id}}" route="admin.users.destroy" page="{{ $users->currentPage() }}" username="{{ $item->username }}"/>

@@ -65,7 +65,7 @@
                                             </a>
                                             @endif
 
-                                            @if (auth()->user()->can('admin.customer.update'))
+                                            @if (auth()->user()->can('admin.customer.edit'))
                                             <a class="btn btn-sm btn-alt-success rounded-0" href="{{ route('admin.customer.edit', $item->id) }}">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
@@ -75,7 +75,7 @@
                                                     class="btn btn-sm btn-alt-danger js-bs-tooltip-enabled rounded-0"
                                                     data-bs-toggle="modal" aria-label="Delete"
                                                     data-bs-target="#modal-delete-{{ $item->id }}">
-                                                    <i class="fa fa-times"></i>
+                                                    <i class="fa fa-trash"></i>
                                                 </button>
                                             @endif
                                         </div>

@@ -12,8 +12,6 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            {{-- <model-add :relic="{{ json_encode($relic) }}" :exhibit="{{ json_encode($exhibit) }}" name="Loại tài liệu"></model-add> --}}
-
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="name">Đầu sách <span
@@ -74,10 +72,13 @@
                             </div>
 
                         </div>
+                        @if (auth()->user()->can('admin.book.update'))
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Thêm đầu
                                 sách</button>
                         </div>
+                        @endif
+
                     </div>
                 </div>
             </div>

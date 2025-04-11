@@ -74,6 +74,9 @@
                             </div>
 
                         </div>
+                        @if (auth()->user()->can('admin.book.store'))
+
+                        @endif
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Thêm
                                 sách</button>

@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\IssuedBook;
 use App\Models\BookItem;
+use App\Models\Customer;
 class IssuedBookController extends Controller
 {
     public function index()
     {
         $issuedBooks=IssuedBook::with('bookItem','customer')->filter()->where('status',1)->paginate(10);
-        return view('admin.issued_book.index',compact('issuedBooks'));
+        $customers = Customer::all();
+        return view('admin.issued_book.index',compact('issuedBooks','customers'));
     }
     public function create()
     {

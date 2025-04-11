@@ -7,7 +7,7 @@
         <div class="card-body">
             <div class="header-card mb-3">
                 <div class="d-flex justify-content-between align-items-center">
-                   
+
                 </div>
             </div>
             <div class="body-card">
@@ -81,8 +81,34 @@
                                                     <i class="fa fa-undo"></i>
                                                 </button>
                                             @endif
+                                            @if (auth()->user()->can('admin.issued_book.update'))
+                                                <button type="button" class="btn btn-sm btn-alt-success js-bs-tooltip-enabled rounded-0"
+                                                    data-bs-target="#modal-issued-book-edit-{{$item->id}}"
+                                                     data-bs-toggle="modal"
+                                                    >
+                                                    <i class="fa fa-pen"></i>
+                                                </button>
+
+                                            @endif
+                                            @if (auth()->user()->can('admin.issued_book.delete'))
+
+                                                <button type="button"
+                                                    class="btn btn-sm btn-alt-danger js-bs-tooltip-enabled rounded-0"
+                                                    data-bs-target="#modal-delete-{{$item->id}}"
+                                                     data-bs-toggle="modal"
+                                                    >
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+
+                                            @endif
                                         </div>
+                                        <x-modal-issued-book-edit :id="$item->id" :customers="$customers" :value="$item"/>
+                                            <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}" name="mượn sách"
+                                                route="admin.issued_book.destroy" />
                                         <x-modal-returned-book :id="$item->id" :item="$item" :customer="$item->customer" />
+
+
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
