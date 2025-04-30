@@ -43,6 +43,17 @@
                                     @enderror
                                 </div>
                             </div>
+                             <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="isbn">ISBN<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('isbn') is-invalid @enderror"
+                                        id="isbn" name="isbn" placeholder="Nhập ISBN"
+                                        value="{{ old('isbn', $book->isbn) }}" />
+                                    @error('isbn')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="location">Vị trí để sách<span
@@ -58,7 +69,7 @@
                             <div class="col-12">
                                 <div class="mb-3">
 
-                                    <label class="form-label" for="published_at">Vị trí để sách<span
+                                    <label class="form-label" for="published_at">Xuất bản<span
                                             class="text-danger">*</span></label>
                                             <input type="text" class="js-flatpickr form-control" name="published_at"
                                             placeholder="Y-m-d" value="{{ old('published_at',$bookItem->published_at) }}">

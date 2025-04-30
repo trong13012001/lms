@@ -33,9 +33,21 @@
                                     <label class="form-label" for="book_code">Mã sách<span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('book_code') is-invalid @enderror"
-                                        id="book_code" name="book_code" placeholder="Nhập ISBN "
+                                        id="book_code" name="book_code" placeholder="Nhập mã sách "
                                         value="{{ old('book_code') }}" />
                                     @error('book_code')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                             <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="isbn">ISBN<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('isbn') is-invalid @enderror"
+                                        id="isbn" name="isbn" placeholder="Nhập ISBN "
+                                        value="{{ old('isbn') }}" />
+                                    @error('isbn')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>

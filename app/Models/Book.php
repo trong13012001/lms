@@ -17,7 +17,6 @@ class Book extends Model
         'description',
         'image',
         'published_on',
-        'isbn',
     ];
     public function tags()
     {

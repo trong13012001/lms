@@ -31,29 +31,20 @@ class BookController extends Controller
 
         $request->validate([
             'name' => 'required|unique:books,name',
-            'isbn' => 'required|unique:books,isbn',
             'published_on' => 'required',
 
         ], [
             'name.required' => 'Sách không được bỏ trống',
             'name.unique' => 'Sách đã tồn tại',
-            'isbn.required' => 'ISBN không được bỏ trống',
-            'isbn.unique' => 'ISBN đã tồn tại',
             'published_on.required' => 'Ngày phát hành không được bỏ trống',
         ]);
         $book = Book::create($request->all());
-
-        // Handle authors
         $authors_id = $request->authors;
         $authors = Author::find($authors_id);
         $book->authors()->attach($authors);
-
-        // Handle genres
         $genres_id = $request->genres;
         $genres = Genre::find($genres_id);
         $book->genres()->attach($genres);
-
-        // Handle tags
         $tags_id = $request->tags;
         $tags = Tag::find($tags_id);
         $book->tags()->attach($tags);
@@ -78,14 +69,11 @@ class BookController extends Controller
         $request->validate(
             [
                 'name' => 'required|unique:books,name,'.$id,
-                'isbn' =>'required|unique:books,isbn,'.$id,
                 'published_on' =>'required',
             ],
             [
                 'name.required'=>'Sách không được bỏ trống',
                 'name.unique' => 'Sách đã tồn tại',
-                'isbn.required' => 'ISBN không được bỏ trống',
-                'isbn.unique' => 'ISBN đã tồn tại',
                 'published_on.required' => 'Ngày phát hành không được bỏ trống',
             ]
             );

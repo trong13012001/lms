@@ -16,6 +16,7 @@ class BookItem extends Model
         'book_id',
         'publisher_id',
         'book_code',
+        'isbn',
         'location',
         'published_at',
         'status',

@@ -26,11 +26,15 @@ class BookItemController extends Controller
             'book_code' => 'required|unique:book_items,book_code',
             'location' => 'required',
             'published_at' => 'required',
+            'isbn' =>'required|unique:book_items,isbn|max:13',
         ], [
             'publisher_id.required' => 'Nhà xuất bản không được bỏ trống',
             'book_code.required' => 'Mã sách không được bỏ trống',
             'book_code.unique' => 'Mã sách đã tồn tại',
             'location.required' => 'Vị trí không được bỏ trống',
+            'isbn.required' => 'ISBN không được bỏ trống',
+            'isbn.unique' => 'ISBN đã tồn tại',
+            'isbn.max' => 'ISBN không được vượt quá 13 ký tự',
             'published_at.required' => 'Ngày xuất bản không được bỏ trống',
         ])
         ;
@@ -58,12 +62,15 @@ class BookItemController extends Controller
             'book_code' => 'required|unique:book_items,book_code,' . $bookItem->id,
             'location' => 'required',
             'published_at' => 'required',
+            'isbn' =>'required|unique:book_items,isbn,'. $bookItem->id .'|max:13'
         ], [
             'book_code.required' => 'Mã sách không được bỏ trống',
             'book_code.unique' => 'Mã sách đã tồn tại',
-
             'location.required' => 'Vị trí không được bỏ trống',
             'published_at.required' => 'Ngày xuất bản không được bỏ trống',
+            'isbn.required' => 'ISBN không được bỏ trống',
+            'isbn.unique' => 'ISBN đã tồn tại',
+            'isbn.max' => 'ISBN không được vượt quá 13 ký tự',
         ]);
         $bookItem->update($request->all());
         notify()->success('Cập nhật sách thành công', 'Thông báo');

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
             $table->foreignId('publisher_id')->constrained('publishers')->onDelete('cascade');
             $table->string('book_code')->unique();
+            $table->string('isbn')->nullable();
             $table->string('location')->nullable();
             $table->date('published_at')->nullable();
             $table->tinyInteger('status')->default(1);
