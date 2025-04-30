@@ -67,7 +67,7 @@
                             <div class="col-12">
                                 <div class="mb-3">
 
-                                    <label class="form-label" for="published_at">Vị trí để sách<span
+                                    <label class="form-label" for="published_at">Xuất bản<span
                                             class="text-danger">*</span></label>
                                             <input type="text" class="js-flatpickr form-control" name="published_at"
                                             placeholder="Y-m-d" value="{{ old('published_at') }}">
