@@ -65,15 +65,17 @@ class IssuedBookController extends Controller
     }
     public function update(Request $request,$id)
     {
+        // dd($request->all());
         $request->validate([
-            'issue_date' =>'required',
+            'issued_date' =>'required',
             'return_date' =>'required',
         ],
         [
-            'issue_date.required' => 'Ngày mượn không được bỏ trống',
+            'issued_date.required' => 'Ngày mượn không được bỏ trống',
            'return_date.required' => 'Ngày phải trả không được bỏ trống',
         ]);
         $issuedBook=IssuedBook::find($id);
+        // dd($issuedBook);
         $issuedBook->update($request->all());
         notify()->success('Cập nhật sách thành công','Thông báo');
         return to_route('admin.issued_book.index');
@@ -97,6 +99,6 @@ class IssuedBookController extends Controller
            'status'=>0,
         ]);
         notify()->success('Trả sách thành công','Thông báo');
-        return to_route('admin.issued_book.index');
+        return back();
     }
 }

@@ -51,7 +51,6 @@
                                 <th>Ngày mượn</th>
                                 <th>Ngày phải trả</th>
                                 <th>Ngày trả</th>
-                                <th>Người mượn</th>
                                 <th>Trạng thái</th>
                                 <th style="width:150px">Hành động</th>
                             </tr>
@@ -69,7 +68,6 @@
                                     <td>{{ $item->issued_date }}</td>
                                     <td>{{ $item->return_date }}</td>
                                     <td>{{ $item->returned_date }}</td>
-                                    <td>{{$item->id}}</td>
                                     <td>
                                         @php
                                             $now = now();
