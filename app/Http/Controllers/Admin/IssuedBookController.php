@@ -52,7 +52,7 @@ class IssuedBookController extends Controller
             notify()->success("Khách hàng ".$customer->name . ' mượn sách ' . $book->name . ' thành công', 'Thông báo');
             return redirect()->back();
         } catch (\Exception $e) {
-            notify()->error($e->getMessage(), 'Error');
+            notify()->error($e->getMessage(), 'Thông báo');
             return redirect()->back()->withInput();
         }
     }
@@ -63,22 +63,29 @@ class IssuedBookController extends Controller
         $issuedBook=IssuedBook::findOrFail($id);
         return view('admin.issued_book.edit',compact('issuedBook'));
     }
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        // dd($request->all());
-        $request->validate([
+        try{
+                    $request->validate([
             'issued_date' =>'required',
-            'return_date' =>'required',
+            'return_date' => 'required|date|after:today',
         ],
         [
             'issued_date.required' => 'Ngày mượn không được bỏ trống',
-           'return_date.required' => 'Ngày phải trả không được bỏ trống',
+            'return_date.required' => 'Ngày phải trả không được bỏ trống',
+            'return_date.after' => 'Ngày trả phải sau ngày hiện tại',
+
         ]);
         $issuedBook=IssuedBook::find($id);
         // dd($issuedBook);
         $issuedBook->update($request->all());
         notify()->success('Cập nhật sách thành công','Thông báo');
         return to_route('admin.issued_book.index');
+        }
+        catch(\Exception $e){
+            notify()->error($e->getMessage(), 'Thông báo');
+            return redirect()->back()->withInput();
+        }
     }
     public function destroy($id)
     {

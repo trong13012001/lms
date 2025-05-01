@@ -14,8 +14,8 @@
                         <div class="mb-3">
                             <b>Thủ thư:</b> {{auth()->user()->name}}
                         </div>
-                        <!-- <input type="hidden" name="book_item_id" value="{{ $id }}"> -->
-                        <input type="hidden" name="issued_date" value="{{ $value->issued_date }}">
+                        {{-- <input type="hidden" name="book_item_id" value="{{ $id }}"> --}}
+                        <input type="hidden" name="issued_date" value="{{ $value->issued_date}}">
 
                         <label for="customer_id" class="form-label">Khách hàng</label>
                         <select class="choices form-select" name="customer_id" id="customer_id" required>

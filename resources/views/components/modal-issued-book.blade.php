@@ -28,7 +28,7 @@
                         <div class="mb-3">
                             <label for="return_date" class="form-label">Ngày trả</label>
                             <input type="text" class="js-flatpickr form-control" id="return_date" name="return_date"
-                                   placeholder="Y-m-d" value="{{ old('return_date') }}">
+                                placeholder="Y-m-d" value="{{ old('return_date') }}">
                         </div>
                     </div>
                     <div class="modal-footer">
