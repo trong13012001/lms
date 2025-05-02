@@ -74,7 +74,7 @@
                 </div>
                 <div class="block-content block-content-full block-content-sm bg-body-light text-center">
                     <button type="submit" class="btn btn-hero btn-success btn-sm" data-toggle="click-ripple">
-                        Thêm tài khoản
+                        Xác nhận
                     </button>
                 </div>
             </div>

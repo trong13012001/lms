@@ -12,7 +12,7 @@
                         <div>
                             <a href="{{ route('admin.book.create') }}" class="btn bg-gd-aqua text-white text-sm mb-0">
                                 <i class="fa fa-circle-plus me-1"></i>
-                                Thêm đầu sách
+                                Thêm mới
                             </a>
                         </div>
                     @endif
@@ -44,7 +44,7 @@
                                 <th>Tác giả</th>
                                 <th>Thể loại</th>
                                 <th>Nhãn</th>
-                                <th class="text-center" style="width:150px">Hành động</th>
+                                <th style="width:150px">Hành động</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -79,7 +79,7 @@
                                         @endforeach
                                     </td>
 
-                                    <td class="text-center">
+                                    <td >
                                         <div class="btn-group" style="gap: 10px;">
                                             @if(auth()->user()->can('admin.book.item.index'))
                                             <a class="btn btn-sm bg-xpro-lighter rounded-0 btn-edit" href="{{ route('admin.book.item.index', $item->id) }}">

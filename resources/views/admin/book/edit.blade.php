@@ -26,8 +26,8 @@
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="authors[]">Tác giả<span class="text-danger">*</span></label>
-                                    <select class="choices form-select multiple-remove" multiple="multiple" name="authors[]">
+                                    <label class="form-label" for="authors">Tác giả<span class="text-danger">*</span></label>
+                                    <select class="choices form-select multiple-remove" multiple="multiple" name="authors">
                                         <option placeholder>Tìm kiếm hoặc chọn tác giả</option>
                                         @foreach ($authors as $author)
                                             <option value="{{ $author['id'] }}" {{ in_array($author['id'], $book->authors->pluck('id')->toArray()) ? 'selected' : '' }}>
@@ -35,7 +35,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    @error('authors[]')
+                                    @error('authors')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -60,7 +60,7 @@
                         </div>
                         @if (auth()->user()->can('admin.book.update'))
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Sửa đầu sách</button>
+                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Xác nhận</button>
                         </div>
                         @endif
 

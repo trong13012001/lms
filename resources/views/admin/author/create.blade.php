@@ -33,7 +33,7 @@
                         </div>
                         @if(auth()->user()->can('admin.author.store'))
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Thêm tác giả</button>
+                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Xác nhận</button>
                         </div>
                         @endif
 

@@ -13,7 +13,7 @@
                             <button type="button" class="btn bg-gd-aqua text-white text-sm mb-0" data-bs-toggle="modal"
                                 data-bs-target="#createBook">
                                 <i class="tf-icons fa fa-circle-plus me-1"></i>
-                                Thêm nhãn
+                                Thêm mới
                             </button>
                         </div>
                     @endif
@@ -40,7 +40,7 @@
                             <tr>
                                 <th width="15px">#</th>
                                 <th>Nhãn</th>
-                                <th class="text-center" style="width:150px">Hành động</th>
+                                <th style="width:150px">Hành động</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -103,7 +103,7 @@
                                                             </button>
                                                             <button type="submit" id="submitUpdateButton"
                                                                 class="btn bg-gd-sea-op text-white ms-1">
-                                                                <span class="d-none d-sm-block">Sửa nhãn</span>
+                                                                <span class="d-none d-sm-block">Xác nhận</span>
                                                             </button>
                                                         </div>
                                                     </form>
@@ -149,7 +149,7 @@
                             <span class="d-none d-sm-block">Huỷ</span>
                         </button>
                         <button type="submit" id="submitButton" class="btn bg-gd-sea-op text-white ms-1">
-                            <span class="d-none d-sm-block">Thêm nhãn</span>
+                            <span class="d-none d-sm-block">Xác nhận</span>
                         </button>
                     </div>
                 </form>

@@ -100,23 +100,7 @@ return [
                 'video/mp4',
             ],
         ],
-        '3d'  => [
-            'folder_name'  => '3d',
-            'title' => 'Hiện vật 3D',
-            'icon' => 'bi-badge-3d',
-            'startup_view' => 'list',
-            'max_size'     => 50000000, // size in KB
-            'thumb' => false,
-            'valid_mime'   => [
-                'application/zip',
-                'application/octet-stream',
-                'application/x-rar-compressed',
-                'application/x-zip-compressed',
-                'application/x-zip',
-                'application/x-rar',
-                'application/x-7z-compressed',
-            ],
-        ],
+
     ],
 
     /*

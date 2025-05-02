@@ -31,7 +31,7 @@
                 </div>
                 <div class="block-content block-content-full block-content-sm bg-body-light text-end">
                     <button type="submit" class="btn btn-primary btn-hero btn-sm" data-toggle="click-ripple">
-                        <i class="fa fa-check opacity-50 me-1"></i> Xác nhận
+                        <i class="fa fa-check opacity-50 me-1"></i>Xác nhận
                     </button>
                 </div>
             </div>

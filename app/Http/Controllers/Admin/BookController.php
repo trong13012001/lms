@@ -27,16 +27,27 @@ class BookController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->all());
 
         $request->validate([
             'name' => 'required|unique:books,name',
+            'authors' => 'required|array',
+            'authors.*' => 'exists:authors,id',
             'published_on' => 'required',
-
+            'genres' =>'array',
+            'genres.*' => 'exists:genres,id',
+            'tags' =>'array',
+            'tags.*' => 'exists:tags,id',
         ], [
             'name.required' => 'Sách không được bỏ trống',
             'name.unique' => 'Sách đã tồn tại',
+            'authors.required' => 'Tác giả không được bỏ trống',
+            'authors.*.exists' => 'Tác giả không tồn tại',
+            'authors.array' => 'Tác giả không hợp lệ',
             'published_on.required' => 'Ngày phát hành không được bỏ trống',
+            'genres.array' => 'Thể loại không hợp lệ',
+            'genres.*.exists' => 'Thể loại không không tồn tại',
+            'tags.array' => 'Thẻ không hợp lệ',
+            'tags.*.exists' => 'Thẻ không không tồn tại',
         ]);
         $book = Book::create($request->all());
         $authors_id = $request->authors;
@@ -70,11 +81,24 @@ class BookController extends Controller
             [
                 'name' => 'required|unique:books,name,'.$id,
                 'published_on' =>'required',
+                'authors' => 'required|array',
+                'authors.*' => 'exists:authors,id',
+                'genres' =>'array',
+                'genres.*' => 'exists:genres,id',
+                'tags' =>'array',
+                'tags.*' => 'exists:tags,id',
             ],
             [
                 'name.required'=>'Sách không được bỏ trống',
                 'name.unique' => 'Sách đã tồn tại',
                 'published_on.required' => 'Ngày phát hành không được bỏ trống',
+                'authors.required' => 'Tác giả không được bỏ trống',
+                'authors.array' => 'Tác giả không hợp lệ',
+                'authors.*.exists' => 'Tác giả không không tồn tại',
+                'genres.array' => 'Thể loại không hợp lệ',
+                'genres.*.exists' => 'Thể loại không không tồn tại',
+                'tags.array' => 'Thẻ không hợp lệ',
+                'tags.*.exists' => 'Thẻ không không tồn tại',
             ]
             );
         $book=Book::find($id);

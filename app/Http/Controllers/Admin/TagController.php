@@ -67,7 +67,7 @@ class TagController extends Controller
         public function destroy($id)
         {
             if(Tag::find($id)->books()->count()>0){
-                notify()->error('Tác giả đang có sách không thể xóa','Thông báo');
+                notify()->error('Nhãn đang có sách không thể xóa','Thông báo');
                 return to_route('admin.tag.index');
             }
             Tag::find($id)->delete();

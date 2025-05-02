@@ -12,7 +12,7 @@
                 </button> --}}
                 <a href="{{ route('admin.users.create') }}" class="btn bg-gd-aqua text-white text-sm mb-0">
                     <i class="si si-user-follow me-1"></i>
-                    Thêm tài khoản
+                    Thêm mới
                 </a>
             </div>
             <div class="table-responsive">

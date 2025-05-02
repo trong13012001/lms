@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="authors[]">Nhà xuất bản<span
+                                    <label class="form-label" for="publisher_id">Nhà xuất bản<span
                                             class="text-danger">*</span></label>
                                             <select class="choices form-select" name="publisher_id">
                                                 <option placeholder>Tìm kiếm hoặc chọn nhà xuất bản</option>
@@ -80,8 +80,7 @@
                         </div>
                         @if (auth()->user()->can('admin.book.item.store'))
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Thêm
-                                sách</button>
+                            <button type="submit" class="btn btn-primary mt-2 px-5" id="submitButton">Xác nhận</button>
                         </div>
                         @endif
                     </div>

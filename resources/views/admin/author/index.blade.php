@@ -12,7 +12,7 @@
                         <div>
                             <a href="{{ route('admin.author.create') }}" class="btn bg-gd-aqua text-white text-sm mb-0">
                                 <i class="fa fa-circle-plus me-1"></i>
-                                Thêm tác giả
+                                Thêm mới
                             </a>
                         </div>
                     @endif
@@ -40,7 +40,7 @@
                                 <th width="15px">#</th>
                                 <th style="width:150px">Ảnh</th>
                                 <th>Tác giả</th>
-                                <th class="text-center" style="width:150px">Hành động</th>
+                                <th style="width:150px">Hành động</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -52,7 +52,7 @@
                                         <img class="img-table" src="{{image($item->image ? $item->image : '/assets/no-image.png', 120, 0)}}" alt="{{ $item->image }}"/>
                                     </td>
                                     <td>{{ $item->name }}</td>
-                                    <td class="text-center">
+                                    <td >
                                         <div class="btn-group" style="gap: 10px;">
                                             @if (auth()->user()->can('admin.author.edit'))
                                             <a class="btn btn-sm btn-alt-success rounded-0" href="{{ route('admin.author.edit', $item->id) }}">

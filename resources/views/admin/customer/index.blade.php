@@ -12,7 +12,7 @@
                         <div>
                             <a href="{{ route('admin.customer.create') }}" class="btn bg-gd-aqua text-white text-sm mb-0">
                                 <i class="fa fa-circle-plus me-1"></i>
-                                Thêm khách hàng
+                                Thêm mới
                             </a>
                         </div>
                     @endif
@@ -43,7 +43,7 @@
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
                                 <th>Địa chỉ</th>
-                                <th class="text-center" style="width:150px">Hành động</th>
+                                <th style="width:150px">Hành động</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -57,7 +57,7 @@
                                     <td>{{$item->phone}}</td>
                                     <td>{{$item->address}}</td>
 
-                                    <td class="text-center">
+                                    <td >
                                         <div class="btn-group" style="gap: 10px;">
                                             @if(auth()->user()->can('admin.customer.show'))
                                             <a class="btn btn-sm bg-xpro-lighter rounded-0 btn-edit" href="{{ route('admin.customer.show', $item->id) }}">

@@ -68,7 +68,7 @@ class GenreController extends Controller
         public function destroy($id)
         {
             if(Genre::find($id)->books()->count()>0){
-                notify()->error('Tác giả đang có sách không thể xóa','Thông báo');
+                notify()->error('Thể loại đang có sách không thể xóa','Thông báo');
                 return to_route('admin.genre.index');
             }
             Genre::find($id)->delete();

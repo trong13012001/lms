@@ -49,7 +49,7 @@
                         <div>
                             <a href="{{ route('admin.book.item.create', ['book' => $book->id]) }}" class="btn bg-gd-aqua text-white text-sm mb-0">
                                 <i class="tf-icons fa fa-circle-plus me-1"></i>
-                                Thêm sách
+                                Thêm mới
                             </a>
                         </div>
                     @endif

@@ -8,7 +8,7 @@
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn bg-gd-aqua text-white text-sm mb-0" data-toggle="click-ripple"
                     data-bs-toggle="modal" data-bs-target="#createRole">
-                    <i class="si si-user-follow me-1"></i>Thêm vai trò
+                    <i class="si si-user-follow me-1"></i>Thêm mới
                 </button>
             </div>
             <div class="table-responsive">
@@ -79,7 +79,7 @@
                             <span class="d-none d-sm-block">Huỷ</span>
                         </button>
                         <button type="submit" class="btn btn-hero btn-success btn-sm" data-bs-dismiss="modal" data-toggle="click-ripple">
-                            <span class="d-none d-sm-block">Thêm vai trò</span>
+                            <span class="d-none d-sm-block">Xác nhận</span>
                         </button>
                     </div>
                 </form>
