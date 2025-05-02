@@ -37,7 +37,7 @@
             </div>
         </form>
 
-        <div class="block block-rounded mt-5">
+        {{-- <div class="block block-rounded mt-5">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Quyền thuộc vai trò</h3>
             </div>
@@ -102,7 +102,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
 </x-admin-layout>

@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <x-slot name="title">Thể loại</x-slot>
+    <x-slot name="title">Danh sách thể loại</x-slot>
     <x-slot name="breadcrumb">
         {{ Breadcrumbs::render('admin.genre.index') }}
     </x-slot>

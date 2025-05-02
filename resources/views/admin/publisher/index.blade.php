@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <x-slot name="title">Nhà xuất bản</x-slot>
+    <x-slot name="title">Danh sách nhà xuất bản</x-slot>
     <x-slot name="breadcrumb">
         {{ Breadcrumbs::render('admin.publisher.index') }}
     </x-slot>
