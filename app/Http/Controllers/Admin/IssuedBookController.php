@@ -77,6 +77,7 @@ class IssuedBookController extends Controller
 
         ]);
         $issuedBook=IssuedBook::find($id);
+        // dd($issuedBook);
         $issuedBook->update($request->all());
         notify()->success('Cập nhật sách thành công','Thông báo');
         return to_route('admin.issued_book.index');
@@ -105,6 +106,6 @@ class IssuedBookController extends Controller
            'status'=>0,
         ]);
         notify()->success('Trả sách thành công','Thông báo');
-        return to_route('admin.issued_book.index');
+        return back();
     }
 }
