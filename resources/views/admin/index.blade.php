@@ -30,12 +30,6 @@
                                     @if (auth()->user()->can('admin.author.index'))
                                     <x-sidebar :submenu="false" :href="route('admin.author.index')" :active="request()->routeIs('admin.author.index')" icon="" name="Tác giả"/>
                                     @endif
-                                    @if (auth()->user()->can('admin.book.index'))
-                                    <x-sidebar :submenu="false" :href="route('admin.book.index')" :active="request()->routeIs('admin.book.index')" icon="" name="Danh sách đầu sách"/>
-                                    @endif
-                                    @if (auth()->user()->can('admin.issued_book.index'))
-                                    <x-sidebar :submenu="false" :href="route('admin.issued_book.index')" :active="request()->routeIs('admin.issued_book.index')" icon="" name="Danh sách sách đang mượn"/>
-                                    @endif
                                     @if (auth()->user()->can('admin.publisher.index'))
                                     <x-sidebar :submenu="false" :href="route('admin.publisher.index')" :active="request()->routeIs('admin.publisher.index')" icon="" name="Nhà xuất bản"/>
                                     @endif
@@ -44,6 +38,15 @@
                                     @endif
                                     @if(auth()->user()->can('admin.tag.index'))
                                         <x-sidebar :submenu="false" :href="route('admin.tag.index')" :active="request()->routeIs('admin.tag.index')" icon="" name="Nhãn"/>
+                                    @endif
+                                    @if (auth()->user()->can('admin.book.index'))
+                                    <x-sidebar :submenu="false" :href="route('admin.book.index')" :active="request()->routeIs('admin.book.index')" icon="" name="Danh sách đầu sách"/>
+                                    @endif
+                                    @if (auth()->user()->can('admin.issued_book.index'))
+                                    <x-sidebar :submenu="false" :href="route('admin.issued_book.index')" :active="request()->routeIs('admin.issued_book.index')" icon="" name="Danh sách sách đang mượn"/>
+                                    @endif
+                                    @if (auth()->user()->can('admin.returned_book.index'))
+                                    <x-sidebar :submenu="false" :href="route('admin.returned_book.index')" :active="request()->routeIs('admin.returned_book.index')" icon="" name="Danh sách sách đã trả"/>
                                     @endif
 
                                     @if(auth()->user()->hasRole('admin'))

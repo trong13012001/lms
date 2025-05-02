@@ -79,9 +79,15 @@ class BookItemController extends Controller
     public function destroy($bookId, $itemId)
     {
         $bookItem = BookItem::findOrFail($itemId);
+
+        if ($bookItem->where('status', 0)) {
+            notify()->error('Không thể xóa sách vì đã được mượn', 'Thông báo');
+            return redirect()->back();
+        }
+
+
         $bookItem->delete();
         notify()->success('Xóa sách thành công', 'Thông báo');
         return redirect()->back();
     }
-
 }

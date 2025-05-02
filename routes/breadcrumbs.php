@@ -117,7 +117,10 @@ Breadcrumbs::for('admin.issued_book.edit',function (BreadcrumbTrail $trail,$issu
     $trail->parent('admin.issued_book.index');
     $trail->push($issuedBook->book->name,route('admin.issued_book.edit',$issuedBook));
 });
-
+//Danh sách sách đã trả
+Breadcrumbs::for('admin.returned_book.index', function (BreadcrumbTrail $trail) {
+    $trail->push('Danh sách sách đã trả',route('admin.returned_book.index'));
+});
 // Quản lý vai trò
 Breadcrumbs::for('admin.roles.index', function (BreadcrumbTrail $trail) {
     $trail->push('Danh sách vai trò', route('admin.roles.index'));

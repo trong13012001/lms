@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\BookItemController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\IssuedBookController;
 
+use App\Http\Controllers\Admin\ReturnedBookController;
 
 
 Route::get('/', function () {
@@ -105,6 +106,9 @@ Route::middleware(['auth', 'auth.session', 'permission'])->group(function () {
         'edit'=>'admin.issued_book.edit',
         'update'=>'admin.issued_book.update',
         'destroy'=>'admin.issued_book.destroy',
+    ]);
+    Route::resource('returned_book', ReturnedBookController::class)->names([
+        'index'=>'admin.returned_book.index',
     ]);
     Route::put('issued_book/return/{issued_book}', [IssuedBookController::class, 'returned_book'])->name('admin.issued_book.returned_book');
 

@@ -100,8 +100,11 @@ class BookController extends Controller
         }
         public function destroy($id)
         {
-            if(Book::find($id)->books()->count()>0){
-                notify()->error('Tác giả đang có sách không thể xóa','Thông báo');
+            if(Book::find($id)->items()->count()>0){
+                // dd(Book::find($id)->items()->count()>0);
+                notify()->error('Đầu sách đang có sách không thể xóa','Thông báo');
+                return to_route('admin.book.index');
+
             }
             Book::find($id)->delete();
 
@@ -114,8 +117,6 @@ class BookController extends Controller
             $publishers = Publisher::all();
             $customers = Customer::all();
             $items = $book->items()->filter($request->all())->paginate(10);
-            // dd($customers);
-            // dd($items);http://127.0.0.1:8000/book/1
             return view('admin.book.show', compact('book', 'items','publishers','customers'));
         }
 

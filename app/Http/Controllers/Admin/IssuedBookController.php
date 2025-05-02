@@ -79,7 +79,7 @@ class IssuedBookController extends Controller
         $issuedBook=IssuedBook::find($id);
         // dd($issuedBook);
         $issuedBook->update($request->all());
-        notify()->success('Cập nhật sách thành công','Thông báo');
+        notify()->success('Cập nhật dữ liệu mượn sách thành công','Thông báo');
         return to_route('admin.issued_book.index');
         }
         catch(\Exception $e){
@@ -89,8 +89,15 @@ class IssuedBookController extends Controller
     }
     public function destroy($id)
     {
-        IssuedBook::find($id)->delete();
-        notify()->success('Xóa sách thành công','Thông báo');
+        $issuedBook = IssuedBook::findOrFail($id);
+        $bookItem = $issuedBook->bookItem;
+
+        $issuedBook->delete();
+
+        // Update book item status to 1 (available)
+        $bookItem->update(['status' => 1]);
+
+        notify()->success('Xóa dữ liệu mượn sách thành công', 'Thông báo');
         return to_route('admin.issued_book.index');
     }
     public function returned_book($id)

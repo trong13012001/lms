@@ -71,8 +71,21 @@ class CustomerController extends Controller
     }
     public function destroy($id)
     {
-        Customer::find($id)->delete();
-        notify()->success('Xóa khách hàng thành công','Thông báo');
+        $customer = Customer::with('issuedBooks')->findOrFail($id);
+
+        $allBooksStatusTwo = $customer->issuedBooks->every(function($book) {
+            return $book->status == 0;
+        });
+
+        if ($allBooksStatusTwo) {
+            $customer->issuedBooks()->where('status', 0)->delete();
+        } else {
+            notify()->error('Khách hàng có sách đang mượn, không thể xóa', 'Thông báo');
+            return to_route('admin.customer.index');
+        }
+
+        $customer->delete();
+        notify()->success('Xóa khách hàng thành công', 'Thông báo');
         return to_route('admin.customer.index');
     }
     public function show($id, Request $request)

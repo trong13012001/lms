@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot name="title">Sách</x-slot>
     <x-slot name="breadcrumb">
-        {{ Breadcrumbs::render('admin.issued_book.index') }}
+        {{ Breadcrumbs::render('admin.returned_book.index') }}
     </x-slot>
     <div class="card">
         <div class="card-body">
@@ -38,7 +38,6 @@
                                 <th>Ngày trả</th>
                                 <th>Người mượn</th>
                                 <th>Trạng thái</th>
-                                <th style="width:150px">Hành động</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -70,49 +69,11 @@
                                             <span class="text-success">Đã trả</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <div class="btn-group" style="gap: 10px;">
-                                            @if (!$item->returned_date)
-                                                <button type="button"
-                                                    class="btn btn-sm btn-alt-primary js-bs-tooltip-enabled rounded-0"
-                                                    data-bs-target="#modal-returned-book-{{$item->id}}"
-                                                     data-bs-toggle="modal"
-                                                    >
-                                                    <i class="fa fa-undo"></i>
-                                                </button>
-                                            @endif
-                                            @if (auth()->user()->can('admin.issued_book.update'))
-                                                <button type="button" class="btn btn-sm btn-alt-success js-bs-tooltip-enabled rounded-0"
-                                                    data-bs-target="#modal-issued-book-edit-{{$item->id}}"
-                                                     data-bs-toggle="modal"
-                                                    >
-                                                    <i class="fa fa-pen"></i>
-                                                </button>
 
-                                            @endif
-                                            @if (auth()->user()->can('admin.issued_book.delete'))
-
-                                                <button type="button"
-                                                    class="btn btn-sm btn-alt-danger js-bs-tooltip-enabled rounded-0"
-                                                    data-bs-target="#modal-delete-{{$item->id}}"
-                                                     data-bs-toggle="modal"
-                                                    >
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-
-                                            @endif
-                                        </div>
-                                        <x-modal-issued-book-edit :id="$item->id" :customers="$customers" :value="$item"/>
-                                            <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}" name="mượn sách"
-                                                route="admin.issued_book.destroy" />
-                                        <x-modal-returned-book :id="$item->id" :item="$item" :customer="$item->customer" />
-
-
-                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10" class="text-center text-gray-500">Không tìm thấy dữ liệu</td>
+                                    <td colspan="9" class="text-center text-gray-500">Không tìm thấy dữ liệu</td>
                                 </tr>
                             @endforelse
                         </tbody>
