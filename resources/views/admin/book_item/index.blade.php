@@ -79,6 +79,7 @@
                                 <th width="15px">#</th>
                                 <th>Mã sách</th>
                                 <th>Vị trí để sách</th>
+                                <th>Nhà xuất bản</th>
                                 <th>Năm xuất bản</th>
                                 <th>Trạng thái</th>
                                 <th style="width:150px">Hành động</th>
@@ -91,6 +92,7 @@
                                     </td>
                                     <td>{{ $item->book_code }}</td>
                                     <td>{{ $item->location }}</td>
+                                    <td>{{$item->publisher->name}}</td>
                                     <td>{{$item->published_at}}</td>
                                     <td>@if ($item->status==1)
                                         <span class="text-success">Khả dụng</span>
@@ -133,7 +135,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan='5' class="text-center text-gray-500">Không tìm thấy dữ liệu</td>
+                                    <td colspan='6' class="text-center text-gray-500">Không tìm thấy dữ liệu</td>
                                 </tr>
                             @endforelse
                         </tbody>

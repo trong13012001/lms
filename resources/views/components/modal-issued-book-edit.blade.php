@@ -38,7 +38,7 @@
                         <span class="d-none d-sm-block">Huỷ</span>
                     </button>
                     <button type="submit" id="submitButton" class="btn bg-gd-sea-op text-white ms-1">
-                        <span class="d-none d-sm-block">Mượn sách</span>
+                        <span class="d-none d-sm-block">Xác nhận</span>
                     </button>
                 </div>
             </form>
