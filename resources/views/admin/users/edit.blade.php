@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <x-slot name="title">Thông tin thành viên</x-slot>
+    <x-slot name="title">Thông tin tài khoản</x-slot>
     <x-slot name="breadcrumb">
         {{ Breadcrumbs::render('admin.users.show', $user) }}
     </x-slot>
@@ -9,7 +9,7 @@
             @method('PUT')
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Thay đổi thông tin thành viên</h3>
+                    <h3 class="block-title">Thay đổi thông tin tài khoản</h3>
                     <div class="block-options">
                         <button type="button"
                             data-toggle="click-ripple" class="btn btn-sm btn-hero btn-danger"
@@ -78,7 +78,7 @@
         </form>
         <div class="block block-rounded mt-5">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Vai trò thành viên</h3>
+                <h3 class="block-title">Vai trò tài khoản</h3>
             </div>
             <div class="block-content pb-4">
                 <div class="fw-bold text-sm">Các vai trò hiện tại:</div>
@@ -101,7 +101,7 @@
                                         <div class="block-content">
                                             <div class="text-center" style="margin-top: 20px">
                                                 <i class="si si-info text-danger" style="font-size: 60px"></i>
-                                                <p class="my-4 text-lg fw-bold">Bạn chắc chắn muốn gỡ vai trò này khỏi thành viên ?</p>
+                                                <p class="my-4 text-lg fw-bold">Bạn chắc chắn muốn gỡ vai trò này khỏi tài khoản ?</p>
                                             </div>
                                         </div>
                                         <div class="block-content block-content-full bg-body d-flex justify-content-end p-3">
@@ -121,13 +121,13 @@
                             </div>
                         </div>
                     @empty
-                        <p class="mb-0 text-sm mt-2">Thành viên chưa có vai trò nào</p>
+                        <p class="mb-0 text-sm mt-2">tài khoản chưa có vai trò nào</p>
                     @endforelse
                 @endif
                 <div class="mt-5">
                     <div class="row">
                         <div class="col-6">
-                            <div class="fw-bold text-sm mb-2">Thêm vai trò cho thành viên:</div>
+                            <div class="fw-bold text-sm mb-2">Thêm vai trò cho tài khoản:</div>
                             <form method="POST" action="{{ route('admin.users.roles', $user->id) }}">
                             @csrf
                                 <select class="form-select @error('role') is-invalid @enderror" name="role">

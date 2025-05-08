@@ -29,8 +29,8 @@
                 <form method="GET" action="{{ route('admin.customer.show',$customer) }}" id="filterForm">
                     <div class="row align-items-center mb-3">
                         <div class="col-4">
-                            <input type="text" class="form-control" name="name" value="{{ Request::get('name') }}"
-                                placeholder="Tìm kiếm khách hàng" />
+                            <input type="text" class="form-control" name="book_code" value="{{ Request::get('book_code') }}"
+                                placeholder="Tìm kiếm mã sách" />
                         </div>
                         <div class="col-5">
                             <button type="submit" class="btn bg-gd-sea-op text-white me-2"><i

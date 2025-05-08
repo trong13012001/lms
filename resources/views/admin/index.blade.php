@@ -55,9 +55,9 @@
                                     @endif
 
 
-                            <x-sidebar :submenu="false" :href="route('file-manager-index')" :active="request()->routeIs('file-manager-index')" icon="si si-folder" name="Quản lý tập tin"/>
                                 </x-parent-sidebar>
                                 <x-sidebar :submenu="false" :href="route('admin.customer.index')" :active="request()->routeIs('admin.customer.index')" icon="si si-user" name="Khách hàng"/>
+                                    <x-sidebar :submenu="false" :href="route('file-manager-index')" :active="request()->routeIs('file-manager-index')" icon="si si-folder" name="Quản lý tập tin"/>
 
                             @role('admin')
                                 <li class="nav-main-heading">Tài khoản</li>

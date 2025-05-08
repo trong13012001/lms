@@ -143,17 +143,17 @@ Breadcrumbs::for('admin.permissions.show', function (BreadcrumbTrail $trail, $pe
     $trail->push($permissions->name, route('admin.permissions.show', $permissions));
 });
 
-// Quản lý thành viên
+// Quản lý tài khoản
 Breadcrumbs::for('admin.users.index', function (BreadcrumbTrail $trail) {
-    $trail->push('Danh sách thành viên', route('admin.users.index'));
+    $trail->push('Danh sách tài khoản', route('admin.users.index'));
 });
-// Quản lý thành viên > Thêm thành viên
+// Quản lý tài khoản > Thêm tài khoản
 Breadcrumbs::for('admin.users.create', function (BreadcrumbTrail $trail) {
     $trail->parent('admin.users.index');
-    $trail->push('Thêm thành viên', route('admin.users.create'));
+    $trail->push('Thêm tài khoản', route('admin.users.create'));
 });
 
-// Quản lý thành viên > Thông tin thành viên
+// Quản lý tài khoản > Thông tin tài khoản
 Breadcrumbs::for('admin.users.show', function (BreadcrumbTrail $trail, $users) {
     $trail->parent('admin.users.index');
     $trail->push($users->name, route('admin.users.show', $users));

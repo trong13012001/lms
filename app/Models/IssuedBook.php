@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use eloquentFilter\QueryFilter\ModelFilters\Filterable;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
+use App\ModelFilters\CustomFilter;
+
 class IssuedBook extends Model
 {
-    use HasFactory, Filterable,Loggable;
+    use HasFactory, Filterable,Loggable,CustomFilter;
 
     protected $fillable = [
         'book_item_id',

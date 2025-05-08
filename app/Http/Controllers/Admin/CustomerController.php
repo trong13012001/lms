@@ -90,10 +90,16 @@ class CustomerController extends Controller
     }
     public function show($id, Request $request)
     {
-        $customer=Customer::with('issuedBooks')->findOrFail($id);
-        $items = $customer->issuedBooks()->filter($request->all())->paginate(10);
-        // dd($items);
-        return view('admin.customer.show',compact('customer','items'));
-    }
+        $customer = Customer::with('issuedBooks.bookItem')->findOrFail($id);
 
+        $items = $customer->issuedBooks()
+                          ->whereHas('bookItem', function($query) use ($request) {
+                              if ($request->has('book_code')) {
+                                  $query->where('book_code', 'LIKE', '%' . $request->book_code . '%');
+                              }
+                          })
+                          ->paginate(10);
+
+        return view('admin.customer.show', compact('customer', 'items'));
+    }
 }

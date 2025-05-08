@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <x-slot name="title">Thêm thành viên</x-slot>
+    <x-slot name="title">Thêm tài khoản</x-slot>
     <x-slot name="breadcrumb">
         {{ Breadcrumbs::render('admin.users.create') }}
     </x-slot>

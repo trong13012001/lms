@@ -40,11 +40,11 @@
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
-                                            data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $item->id }}">
+                                        data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $item->id }}">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </div>
-                                    <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}"name="vai trò" route="admin.roles.destroy"/>
+                                    <x-modal-del id="{{ $item->id }}"  params="{{ $item->id }}" name="vai trò" route="admin.roles.destroy"/>
                                 </td>
                             </tr>
                         @endforeach

@@ -50,14 +50,14 @@ class UserController extends Controller
         ]);
         if ($user->hasRole($request->role)) {
 
-            notify()->error('Thành viên đã có vai trò này', 'Thông báo');
+            notify()->error('tài khoản đã có vai trò này', 'Thông báo');
 
             return back();
         }
 
         $user->assignRole($request->role);
 
-        notify()->success('Thêm vai trò cho thành viên thành công', 'Thông báo');
+        notify()->success('Thêm vai trò cho tài khoản thành công', 'Thông báo');
 
         return back();
     }
@@ -68,7 +68,7 @@ class UserController extends Controller
 
             $user->removeRole($role);
 
-            notify()->success('Xoá vai trò khỏi thành viên thành công', 'Thông báo');
+            notify()->success('Xoá vai trò khỏi tài khoản thành công', 'Thông báo');
 
             return back();
         }
@@ -81,7 +81,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->hasRole('admin')) {
-            notify()->error('Thành viên này không thể xoá', 'Thông báo');
+            notify()->error('tài khoản này không thể xoá', 'Thông báo');
             return back();
         }
 
@@ -100,7 +100,7 @@ class UserController extends Controller
         $newTotalUsers = $totalUsers - 1;
         $maxPage = max(1, ceil($newTotalUsers / $perPage));
 
-        notify()->success('Xóa thành viên thành công', 'Thông báo');
+        notify()->success('Xóa tài khoản thành công', 'Thông báo');
 
         if ($currentPage > $maxPage) {
             return redirect()->route('admin.users.index', array_merge($searchParams, ['page' => $maxPage]));
