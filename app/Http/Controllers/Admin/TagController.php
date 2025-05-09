@@ -49,7 +49,7 @@ class TagController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|unique:tags,name',
+                'name' => 'required|unique:tags,name,'.$id,
             ],
             [
                 'name.required' => 'Nhãn không được bỏ trống',

@@ -48,10 +48,11 @@ class AuthorController extends Controller
     {
         $request->validate(
             [
-                'name'=>'required',
+                'name' => 'required|unique:authors,name,'.$id,
             ],
             [
-                'name.required'=>'Tác giả không được bỏ trống'
+                'name.required'=>'Tác giả không được bỏ trống',
+                'name.unique'=>'Tác giả đã tồn tại'
             ]
             );
         $author=Author::find($id);

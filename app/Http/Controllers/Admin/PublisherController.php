@@ -48,7 +48,7 @@ class PublisherController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|unique:publishers,name',
+                'name' => 'required|unique:publishers,name,'.$id,
             ],
             [
                 'name.required' => 'Nhà xuất bản không được bỏ trống',

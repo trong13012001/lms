@@ -17,7 +17,7 @@
 
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="name">Nhà xuất bản <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="name">Thể loại <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
                                         placeholder="Nhập thể loại " value="{{ old('name',$genre['name']) }}" />
                                     @error('name')

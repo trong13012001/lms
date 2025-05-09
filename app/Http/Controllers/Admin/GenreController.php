@@ -48,7 +48,7 @@ class GenreController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|unique:genres,name',
+                'name' => 'required|unique:genres,name,'.$id,
             ],
             [
                 'name.required' => 'Thể loại không được bỏ trống',
