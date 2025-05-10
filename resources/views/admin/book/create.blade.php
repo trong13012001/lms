@@ -28,7 +28,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="authors">Tác giả<span
                                             class="text-danger">*</span></label>
-                                            <select class="choices form-select multiple-remove" multiple="multiple" name="authors">
+                                            <select class="choices form-select multiple-remove" multiple="multiple" name="authors[]">
                                                 <option placeholder>Tìm kiếm hoặc chọn tác giả</option>
                                                 @foreach ($authors as $author)
                                                     <option value="{{ $author['id'] }}">{{ $author['name'] }}</option>
@@ -87,7 +87,7 @@
                             <h5 class="card-title mb-0">Thể loại</h5>
                         </div>
                         <div class="body-card">
-                            <select class="choices form-select multiple-remove" multiple="multiple" name="genres">
+                            <select class="choices form-select multiple-remove" multiple="multiple" name="genres[]">
                                 <option placeholder>Tìm kiếm hoặc chọn thể loại</option>
                                 @foreach ($genres as $genre)
                                     <option value="{{ $genre['id'] }}">{{ $genre['name'] }}</option>
@@ -105,7 +105,7 @@
                             <h5 class="card-title mb-0">Nhãn</h5>
                         </div>
                         <div class="body-card">
-                            <select class="choices form-select multiple-remove" multiple="multiple" name="tags">
+                            <select class="choices form-select multiple-remove" multiple="multiple" name="tags[]">
                                 <option placeholder>Tìm kiếm hoặc chọn nhãn</option>
                                 @foreach ($tags as $tag)
                                     <option value="{{ $tag['id'] }}">{{ $tag['name'] }}</option>

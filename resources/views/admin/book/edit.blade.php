@@ -27,7 +27,7 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="authors">Tác giả<span class="text-danger">*</span></label>
-                                    <select class="choices form-select multiple-remove" multiple="multiple" name="authors">
+                                    <select class="choices form-select multiple-remove" multiple="multiple" name="authors[]">
                                         <option placeholder>Tìm kiếm hoặc chọn tác giả</option>
                                         @foreach ($authors as $author)
                                             <option value="{{ $author['id'] }}" {{ in_array($author['id'], $book->authors->pluck('id')->toArray()) ? 'selected' : '' }}>

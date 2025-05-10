@@ -30,20 +30,19 @@ class BookController extends Controller
 
         $request->validate([
             'name' => 'required|unique:books,name',
-            'authors' => 'required',
-            'authors.*' => 'exists:authors,id',
+            'authors[]' => 'required|exists:authors,id',
             'published_on' => 'required',
-            'genres.*' => 'exists:genres,id',
-            'tags.*' => 'exists:tags,id',
+            'genres[]' => 'exists:genres,id',
+            'tags[]' => 'exists:tags,id',
         ], [
             'name.required' => 'Sách không được bỏ trống',
             'name.unique' => 'Sách đã tồn tại',
-            'authors.required' => 'Tác giả không được bỏ trống',
-            'authors.*.exists' => 'Tác giả không tồn tại',
+            'authors[].required' => 'Tác giả không được bỏ trống',
+            'authors[].exists' => 'Tác giả không tồn tại',
             'published_on.required' => 'Ngày phát hành không được bỏ trống',
-            'genres.*.exists' => 'Thể loại không không tồn tại',
-            'tags.array' => 'Thẻ không hợp lệ',
-            'tags.*.exists' => 'Thẻ không không tồn tại',
+            'genres[].exists' => 'Thể loại không không tồn tại',
+            'tags[].array' => 'Thẻ không hợp lệ',
+            'tags[].exists' => 'Thẻ không không tồn tại',
         ]);
         $book = Book::create($request->all());
         $authors_id = $request->authors;
