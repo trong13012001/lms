@@ -8,7 +8,7 @@
     "require": {
         "php": "^8.2",
         "diglactic/laravel-breadcrumbs": "^9.0",
-        "haruncpi/laravel-user-activity": "^1.0",
+        "haunv/laravel-user-activity": "^1.0",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "league/glide-symfony": "^2.0",

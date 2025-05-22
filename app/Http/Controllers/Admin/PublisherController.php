@@ -65,7 +65,7 @@ class PublisherController extends Controller
         }
         public function destroy($id)
         {
-            if(Publisher::find($id)->books()->count()>0){
+            if(Publisher::find($id)->bookItems()->count()>0){
                 notify()->error('Nhà xuất bản đang có sách không thể xóa','Thông báo');
                 return to_route('admin.publisher.index');
             }
